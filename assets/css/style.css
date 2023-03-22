@@ -16,4 +16,5 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 
 h1 {
     font-size: 6rem;
+    color: #fff;
 }

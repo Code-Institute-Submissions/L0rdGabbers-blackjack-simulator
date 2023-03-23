@@ -14,6 +14,10 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     align-items: center;
 }
 
+div {
+    background: none;
+}
+
 /*Display's the table's iconic BLACKJACK text*/
 h1 {
     font-family: 'Rye', cursive;
@@ -28,6 +32,7 @@ p {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-stretch: condensed;
+    background: none;
 }
 
 /*Turns font player controls grey, when they cannot be interacted with*/

@@ -17,6 +17,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 /*Display's the table's iconic BLACKJACK text*/
 h1 {
     font-family: 'Rye', cursive;
+    letter-spacing: 0.1em;
     font-size: 6rem;
     color: rgba(255,255,255,.8);
 }
@@ -31,7 +32,7 @@ p {
 
 /*Turns font player controls grey, when they cannot be interacted with*/
 .static {
-    color: #C0C0C0
+    color: #A0A0A0
 }
 
 /*Assigns space for player's score*/
@@ -57,7 +58,7 @@ p {
 /*Assigns space for discard pile*/
 .top-left {
     position: fixed;
-    left: 6rem; top: 2rem;
+    left: 10rem; top: 6rem;
     width: 16rem;
     height: 13rem;
     padding: 5px;
@@ -67,7 +68,7 @@ p {
 /*Assigns space for draw pile*/
 .top-right {
     position: fixed;
-    right: 6rem; top: 2rem;
+    right: 10rem; top: 6rem;
     width: 16rem;
     height: 13rem;
     padding: 5px;

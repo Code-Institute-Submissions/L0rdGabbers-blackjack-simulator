@@ -1,6 +1,6 @@
 * {
-    font-family: 'Rye', cursive;
     background-color: #006400;
+    font-size: 1rem;
 }
 
 html, body {margin: 0; height: 100%; overflow: hidden}
@@ -15,6 +15,29 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 
 h1 {
+    font-family: 'Rye', cursive;
     font-size: 6rem;
     color: #fff;
+}
+
+p {
+    font-size: 2.2rem;
+    color: #fff;
+}
+
+.bottom-left {
+    position: fixed;
+    left: 3rem; bottom: 4rem;
+    width: 16rem;
+    height: 10rem;
+    padding: 5px;
+}
+
+.bottom-right {
+    position: fixed;
+    right: 3rem; bottom: 10rem;
+    width: 16rem;
+    height: 13rem;
+    padding: 5px;
+    text-align: right;
 }

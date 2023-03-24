@@ -6,8 +6,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (event.key === "Enter") {
             if (this.valueAsNumber === 0) {
                 alert("You gotta pay to play round 'ere")
-            } else { beginRound();
+            } else {
                 alert("Collecting bets")
+                beginRound();
             }
         }
     })

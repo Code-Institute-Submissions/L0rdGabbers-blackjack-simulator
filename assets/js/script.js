@@ -8,12 +8,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 alert("You gotta pay to play round 'ere")
             } else if (this.valueAsNumber < 0) {
                 alert("I ain't givin' you money!")
+            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
+                alert("I'm sorry kiddo, we don't accept pretend money here...")
             } else {
                 alert("Collecting bets")
                 let subtractBet = (this.valueAsNumber);
                 let oldScore = parseFloat(document.getElementById('score').innerHTML);
                 let newScore = oldScore - subtractBet;
                 document.getElementById('score').innerHTML = newScore;
+                document.getElementById('bet').setAttribute("max", newScore);
                 beginRound();
             }
         }
@@ -48,9 +51,5 @@ function split() {
 }
 
 function doubleDown() {
-
-}
-
-function determineMaxBet() {
 
 }

@@ -6,8 +6,14 @@ document.addEventListener("DOMContentLoaded", function() {
         if (event.key === "Enter") {
             if (this.valueAsNumber === 0) {
                 alert("You gotta pay to play round 'ere")
+            } else if (this.valueAsNumber < 0) {
+                alert("I ain't givin' you money!")
             } else {
                 alert("Collecting bets")
+                let subtractBet = (this.valueAsNumber);
+                let oldScore = parseFloat(document.getElementById('score').innerHTML);
+                let newScore = oldScore - subtractBet;
+                document.getElementById('score').innerHTML = newScore;
                 beginRound();
             }
         }

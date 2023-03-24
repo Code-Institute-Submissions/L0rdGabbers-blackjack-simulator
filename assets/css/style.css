@@ -41,6 +41,15 @@ p {
     background: none;
 }
 
+span {
+    font-size: 2.2rem;
+    color: #FFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-stretch: condensed;
+    background: none;
+}
+
 label {
     font-size: 2.2rem;
     color: #FFF;

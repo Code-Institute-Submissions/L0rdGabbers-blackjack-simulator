@@ -18,6 +18,12 @@ div {
     background: none;
 }
 
+.row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 /*Display's the table's iconic BLACKJACK text*/
 h1 {
     font-family: 'Rye', cursive;
@@ -33,6 +39,35 @@ p {
     font-weight: 400;
     font-stretch: condensed;
     background: none;
+}
+
+label {
+    font-size: 2.2rem;
+    color: #FFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-stretch: condensed;
+    background: none;
+}
+
+input {
+    color: #FFF;
+    font-size: 2.2rem;
+    color: #FFF;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    font-stretch: condensed;
+    padding-left: .2rem;
+    width: 3rem;
+}
+input:focus, textarea:focus, select:focus{
+    outline: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 /*Turns font player controls grey, when they cannot be interacted with*/

@@ -34,8 +34,12 @@
         </div>
     
         <div id="bets-scores" class="bottom-left">
-            <p>Bets: 0¢</p>
-            <p>Score: $1.00</p>
+            <div class="row">
+                <label for="bet">Bet: $</label>
+                <input type="number" id="bet" name="bet" value="0" min="0" max="determineMaxValue()" step="2">
+                <p>.00</p>
+            </div>
+            <p>Score: $100.00</p>
         </div>
         
         <div id="speech-bubble"></div>

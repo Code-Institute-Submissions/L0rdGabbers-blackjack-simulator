@@ -17,9 +17,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 let subtractBet = (this.valueAsNumber);
                 let oldScore = parseFloat(document.getElementById('score').innerHTML);
                 let newScore = oldScore - subtractBet;
+                let bet = document.getElementById('bet')
                 document.getElementById('score').innerHTML = newScore;
-                document.getElementById('bet').setAttribute("max", newScore);
-                document.getElementById('bet').removeEventListener('keypress', collectBets)
+                bet.setAttribute("max", newScore);
+                bet.removeEventListener('keypress', collectBets);
+                bet.value = ''
                 beginRound();
             }
         }

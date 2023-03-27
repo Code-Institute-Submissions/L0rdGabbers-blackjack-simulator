@@ -128,6 +128,10 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: 14rem;
 } 
 
+.cpu-hand {
+    transform: rotate(-90deg);
+}
+
 /*Rotates draw and discard piles so as to look less robotic*/
 #draw {
     transform: rotate(40deg);

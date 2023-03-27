@@ -126,6 +126,10 @@ input[type=number]::-webkit-outer-spin-button {
 
 .card {
     max-height: 14rem;
+} 
+
+.undrawn {
+    display: none;
 }
 
 /*Rotates draw and discard piles so as to look less robotic*/

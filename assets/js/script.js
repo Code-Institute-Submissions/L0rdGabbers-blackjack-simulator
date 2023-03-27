@@ -31,6 +31,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function beginRound() {
+    var cardNumbers = Array.from(Array(53).keys())
+    cardNumbers.shift();
+    let drawCardNumber = Math.floor(Math.random() * 53);
+    console.log(drawCardNumber);
+    console.log(cardNumbers);
 
 }
 

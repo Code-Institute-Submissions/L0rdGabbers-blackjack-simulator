@@ -60,6 +60,9 @@ function beginRound() {
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) {
         if (drawCardNumber == i) {
+            let img = document.createElement('img');
+            img.src = cardImgs[i].source
+            document.getElementById('cpu2-hand').appendChild(img)
             console.log(cardImgs[i]);
         }
     }

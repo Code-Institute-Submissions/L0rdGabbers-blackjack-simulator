@@ -55,23 +55,19 @@ let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", p
     {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11},
     {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11},]
 
-    let discardPile = []
+let discardPile = []
 
 function beginRound() {
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     if (cardImgs.length != 0) { 
         for (let i = 0; i < 8; i++) {
-            for (let i = 0; i < cardImgs.length; i++) { 
-                if (drawCardNumber == i) {
-                    let img = document.createElement('img');
-                    img.src = cardImgs[i].source;
-                    img.setAttribute('class', "card cpu-hand");
-                    document.getElementById('cpu1-hand').appendChild(img);
-                    discardPile.push(cardImgs[i]);
-                    console.log(discardPile);
-                    cardImgs.splice(i,1);
-                    console.log(cardImgs);
-                }
+            if (i == 0 || 4) {
+                dealCpu1();
+            } else if (i == 1 || 5) {
+                dealPlayer();
+            } else if (i == 2 || 6) {
+                dealCpu2();
+            } else if (i == 3 || 7) {
+                dealDealer();
             }
         }
     } else {
@@ -83,6 +79,7 @@ function beginRound() {
 }
 
 function dealCpu1() {
+    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
             let img = document.createElement('img');
@@ -98,6 +95,7 @@ function dealCpu1() {
 }
 
 function dealPlayer() {
+    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
             let img = document.createElement('img');
@@ -113,6 +111,7 @@ function dealPlayer() {
 }
 
 function dealCpu2() {
+    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
             let img = document.createElement('img');
@@ -128,6 +127,7 @@ function dealCpu2() {
 }
 
 function dealDealer() {
+    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
             let img = document.createElement('img');

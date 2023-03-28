@@ -63,7 +63,7 @@ function beginRound() {
             let img = document.createElement('img');
             img.src = cardImgs[i].source
             img.setAttribute('class', "card cpu-hand")
-            document.getElementById('cpu2-hand').appendChild(img)
+            document.getElementById('cpu1-hand').appendChild(img)
             console.log(cardImgs[i]);
         }
     }

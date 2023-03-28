@@ -50,6 +50,7 @@ span {
     background: none;
 }
 
+/*Label for bet input*/
 label {
     font-size: 2.2rem;
     color: #FFF;
@@ -59,6 +60,7 @@ label {
     background: none;
 }
 
+/*Styles the player's bet input so that it is not too jarring*/
 input {
     color: #FFF;
     font-size: 2.2rem;
@@ -126,11 +128,25 @@ input[type=number]::-webkit-outer-spin-button {
 
 .card {
     max-height: 14rem;
-} 
+}
+
+.hand {
+    display: flex;
+    width: fit-content;
+    justify-content: center;
+}
 
 .cpu-hand {
     transform: rotate(-90deg);
 }
+
+#cpu1-hand {
+    position: fixed;
+    top: 40%;
+    right: 32rem;
+}
+
+
 
 /*Rotates draw and discard piles so as to look less robotic*/
 #draw {

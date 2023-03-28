@@ -28,19 +28,16 @@ document.addEventListener("DOMContentLoaded", function() {
     })
 })
 
-
-
-function beginRound() {
-    let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2},
+let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2},
     {source: "./assets/images/2oh-card.png", card: "Two of Hearts", points: 2}, {source: "./assets/images/2os-card.png", card: "Two of Spades", points: 2},
     {source: "./assets/images/3oc-card.png", card: "Three of Clubs", points: 3}, {source: "./assets/images/3od-card.png", card: "Three of Diamonds", points: 3},
-    {source: "./assets/images/3oh-card.png", card: "Three of Hearts", points: 3}, {source: "./assets/images/3os-card.png", card: "Three of Spades", points: 3}, 
+    {source: "./assets/images/3oh-card.png", card: "Three of Hearts", points: 3}, {source: "./assets/images/3os-card.png", card: "Three of Spades", points: 3},
     {source: "./assets/images/4oc-card.png", card: "Four of Clubs", points: 4}, {source: "./assets/images/4od-card.png", card: "Four of Diamonds", points: 4},
     {source: "./assets/images/4oh-card.png", card: "Four of Hearts", points: 4}, {source: "./assets/images/4os-card.png", card: "Four of Spades", points: 4},
     {source: "./assets/images/5oc-card.png", card: "Five of Clubs", points: 5}, {source: "./assets/images/5od-card.png", card: "Five of Diamonds", points: 5},
-    {source: "./assets/images/5oh-card.png", card: "Five of Hearts", points: 5}, {source: "./assets/images/5os-card.png", card: "Five of Spades", points: 5},, 
+    {source: "./assets/images/5oh-card.png", card: "Five of Hearts", points: 5}, {source: "./assets/images/5os-card.png", card: "Five of Spades", points: 5}, 
     {source: "./assets/images/6oc-card.png", card: "Six of Clubs", points: 6}, {source: "./assets/images/6od-card.png", card: "Six of Diamonds", points: 6},
-    {source: "./assets/images/6oh-card.png", card: "Six of Hearts", points: 6}, {source: "./assets/images/6os-card.png", card: "Six of Spades", points: 6},, 
+    {source: "./assets/images/6oh-card.png", card: "Six of Hearts", points: 6}, {source: "./assets/images/6os-card.png", card: "Six of Spades", points: 6}, 
     {source: "./assets/images/7oc-card.png", card: "Seven of Clubs", points: 7}, {source: "./assets/images/7od-card.png", card: "Seven of Diamonds", points: 7},
     {source: "./assets/images/7oh-card.png", card: "Seven of Hearts", points: 7}, {source: "./assets/images/7os-card.png", card: "Seven of Spades", points: 7}, 
     {source: "./assets/images/8oc-card.png", card: "Eight of Clubs", points: 8}, {source: "./assets/images/8od-card.png", card: "Eight of Diamonds", points: 8},
@@ -57,14 +54,90 @@ function beginRound() {
     {source: "./assets/images/koh-card.png", card: "King of Hearts", points: 10}, {source: "./assets/images/kos-card.png", card: "King of Spades", points: 10},
     {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11},
     {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11},]
+
+    let discardPile = []
+
+function beginRound() {
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) {
+    if (cardImgs.length != 0) { 
+        for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < cardImgs.length; i++) { 
+                if (drawCardNumber == i) {
+                    let img = document.createElement('img');
+                    img.src = cardImgs[i].source;
+                    img.setAttribute('class', "card cpu-hand");
+                    document.getElementById('cpu1-hand').appendChild(img);
+                    discardPile.push(cardImgs[i]);
+                    console.log(discardPile);
+                    cardImgs.splice(i,1);
+                    console.log(cardImgs);
+                }
+            }
+        }
+    } else {
+        for (const obj of discardPile) {
+            cardImgs.push(copy(obj));
+            discardPile.splice(obj, 1);
+        }
+    }
+}
+
+function dealCpu1() {
+    for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
             let img = document.createElement('img');
-            img.src = cardImgs[i].source
-            img.setAttribute('class', "card cpu-hand")
-            document.getElementById('cpu1-hand').appendChild(img)
-            console.log(cardImgs[i]);
+            img.src = cardImgs[i].source;
+            img.setAttribute('class', "card cpu-hand");
+            document.getElementById('cpu1-hand').appendChild(img);
+            discardPile.push(cardImgs[i]);
+            console.log(discardPile);
+            cardImgs.splice(i,1);
+            console.log(cardImgs);
+        }
+    }
+}
+
+function dealPlayer() {
+    for (let i = 0; i < cardImgs.length; i++) { 
+        if (drawCardNumber == i) {
+            let img = document.createElement('img');
+            img.src = cardImgs[i].source;
+            img.setAttribute('class', "card");
+            document.getElementById('player-hand').appendChild(img);
+            discardPile.push(cardImgs[i]);
+            console.log(discardPile);
+            cardImgs.splice(i,1);
+            console.log(cardImgs);
+        }
+    }
+}
+
+function dealCpu2() {
+    for (let i = 0; i < cardImgs.length; i++) { 
+        if (drawCardNumber == i) {
+            let img = document.createElement('img');
+            img.src = cardImgs[i].source;
+            img.setAttribute('class', "card cpu-hand");
+            document.getElementById('cpu2-hand').appendChild(img);
+            discardPile.push(cardImgs[i]);
+            console.log(discardPile);
+            cardImgs.splice(i,1);
+            console.log(cardImgs);
+        }
+    }
+}
+
+function dealDealer() {
+    for (let i = 0; i < cardImgs.length; i++) { 
+        if (drawCardNumber == i) {
+            let img = document.createElement('img');
+            img.src = cardImgs[i].source;
+            img.setAttribute('class', "card cpu-hand");
+            document.getElementById('dealer-hand').appendChild(img);
+            discardPile.push(cardImgs[i]);
+            console.log(discardPile);
+            cardImgs.splice(i,1);
+            console.log(cardImgs);
         }
     }
 }

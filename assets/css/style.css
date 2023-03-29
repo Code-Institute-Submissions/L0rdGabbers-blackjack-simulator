@@ -132,6 +132,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .cpu-card {
     transform: rotate(-90deg);
+    margin: -1.8rem;
 }
 
 .hand {
@@ -144,33 +145,32 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     height: max-content;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
-
 
 
 #cpu1-hand {
     position: fixed;
     top: 40%;
-    right: 25%;
+    right: 20%;
 }
 
 #cpu2-hand {
     position: fixed;
     top: 40%;
-    left: 25%;
+    left: 20%;
 }
 
 #player-hand {
     position: fixed;
     right: 42%;
-    bottom: 15%;
+    bottom: 10%;
 }
 
 #dealer-hand {
     position: fixed;
     right: 42%;
-    top: 15%;
+    top: 10%;
 }
 
 

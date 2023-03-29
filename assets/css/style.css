@@ -130,20 +130,47 @@ input[type=number]::-webkit-outer-spin-button {
     max-height: 14rem;
 }
 
+.cpu-card {
+    transform: rotate(-90deg);
+}
+
 .hand {
     display: flex;
-    width: fit-content;
-    justify-content: center;
+    width: min-content;
+    justify-content: space-between;
 }
 
 .cpu-hand {
-    transform: rotate(-90deg);
+    display: flex;
+    height: max-content;
+    flex-direction: column;
+    align-items: flex-start;
 }
+
+
 
 #cpu1-hand {
     position: fixed;
     top: 40%;
-    right: 32rem;
+    right: 25%;
+}
+
+#cpu2-hand {
+    position: fixed;
+    top: 40%;
+    left: 25%;
+}
+
+#player-hand {
+    position: fixed;
+    right: 42%;
+    bottom: 15%;
+}
+
+#dealer-hand {
+    position: fixed;
+    right: 42%;
+    top: 15%;
 }
 
 

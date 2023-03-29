@@ -60,14 +60,22 @@ let discardPile = []
 function beginRound() {
     if (cardImgs.length != 0) { 
         for (let i = 0; i < 8; i++) {
-            if (i == 0 || 4) {
+            if (i == 0) {
                 dealCpu1();
-            } else if (i == 1 || 5) {
+            } else if (i == 1) {
                 dealPlayer();
-            } else if (i == 2 || 6) {
+            } else if (i == 2) {
                 dealCpu2();
-            } else if (i == 3 || 7) {
-                dealDealer();
+            } else if (i == 3) {
+                dealDealerUp();
+            } else if (i == 4) {
+                dealCpu1();
+            } else if (i == 5) {
+                dealPlayer();
+            } else if (i == 6) {
+                dealCpu2();
+            } else if (i == 7) {
+                dealDealerDown();
             }
         }
     } else {
@@ -84,7 +92,7 @@ function dealCpu1() {
         if (drawCardNumber == i) {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
-            img.setAttribute('class', "card cpu-hand");
+            img.setAttribute('class', "card cpu-card");
             document.getElementById('cpu1-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
             console.log(discardPile);
@@ -116,7 +124,7 @@ function dealCpu2() {
         if (drawCardNumber == i) {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
-            img.setAttribute('class', "card cpu-hand");
+            img.setAttribute('class', "card cpu-card");
             document.getElementById('cpu2-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
             console.log(discardPile);
@@ -126,7 +134,28 @@ function dealCpu2() {
     }
 }
 
-function dealDealer() {
+function dealDealerUp() {
+    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+    for (let i = 0; i < cardImgs.length; i++) { 
+        if (drawCardNumber == i) {
+            let img = document.createElement('img');
+            img.src = cardImgs[i].source;
+            img.setAttribute('class', "card");
+            document.getElementById('dealer-hand').appendChild(img);
+            discardPile.push(cardImgs[i]);
+            cardImgs.splice(i,1);
+        }
+    }
+}
+
+function dealDealerDown() {
+    let img = document.createElement('img');
+    img.src = "./assets/images/card-back.png"
+    img.setAttribute('class', 'card')
+    document.getElementById('dealer-hand').appendChild(img);
+}
+
+function revealDealerCard() {
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {

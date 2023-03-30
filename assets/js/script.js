@@ -78,6 +78,7 @@ function beginRound() {
                 dealDealerDown();
             }
         }
+    testForBlackjack();
     } else {
         for (const obj of discardPile) {
             cardImgs.push(copy(obj));
@@ -93,11 +94,11 @@ function dealCpu1() {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card cpu-card");
+            img.setAttribute('alt', `${cardImgs[i].card}`);
+            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('cpu1-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
-            console.log(discardPile);
             cardImgs.splice(i,1);
-            console.log(cardImgs);
         }
     }
 }
@@ -109,11 +110,11 @@ function dealPlayer() {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card");
+            img.setAttribute('alt', `${cardImgs[i].card}`)
+            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('player-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
-            console.log(discardPile);
             cardImgs.splice(i,1);
-            console.log(cardImgs);
         }
     }
 }
@@ -125,11 +126,11 @@ function dealCpu2() {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card cpu-card");
+            img.setAttribute('alt', `${cardImgs[i].card}`);
+            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('cpu2-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
-            console.log(discardPile);
             cardImgs.splice(i,1);
-            console.log(cardImgs);
         }
     }
 }
@@ -141,6 +142,8 @@ function dealDealerUp() {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card");
+            img.setAttribute('alt', `${cardImgs[i].card}`);
+            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('dealer-hand').appendChild(img);
             discardPile.push(cardImgs[i]);
             cardImgs.splice(i,1);
@@ -168,6 +171,14 @@ function revealDealerCard() {
             cardImgs.splice(i,1);
             console.log(cardImgs);
         }
+    }
+}
+
+function testForBlackjack() {
+    let dealerHand = document.getElementById('dealer-hand');
+    let dealerCardOne = dealerHand.children[0].getAttribute('data-type');
+    if (dealerCardOne == 10) {
+        
     }
 }
 

@@ -57,6 +57,14 @@ let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", p
 
 let discardPile = []
 
+let playerHand = []
+
+let cpu1Hand = []
+
+let cpu2Hand = []
+
+let dealerHand = []
+
 function beginRound() {
     if (cardImgs.length != 0) { 
         for (let i = 0; i < 8; i++) {
@@ -95,9 +103,8 @@ function dealCpu1() {
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card cpu-card");
             img.setAttribute('alt', `${cardImgs[i].card}`);
-            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('cpu1-hand').appendChild(img);
-            discardPile.push(cardImgs[i]);
+            cpu1Hand.push(cardImgs[i]);
             cardImgs.splice(i,1);
         }
     }
@@ -111,9 +118,8 @@ function dealPlayer() {
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card");
             img.setAttribute('alt', `${cardImgs[i].card}`)
-            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('player-hand').appendChild(img);
-            discardPile.push(cardImgs[i]);
+            playerHand.push(cardImgs[i]);
             cardImgs.splice(i,1);
         }
     }
@@ -127,9 +133,8 @@ function dealCpu2() {
             img.src = cardImgs[i].source;
             img.setAttribute('class', "card cpu-card");
             img.setAttribute('alt', `${cardImgs[i].card}`);
-            img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('cpu2-hand').appendChild(img);
-            discardPile.push(cardImgs[i]);
+            cpu2Hand.push(cardImgs[i]);
             cardImgs.splice(i,1);
         }
     }
@@ -145,7 +150,7 @@ function dealDealerUp() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             img.setAttribute('data-type', `${cardImgs[i].points}` );
             document.getElementById('dealer-hand').appendChild(img);
-            discardPile.push(cardImgs[i]);
+            dealerHand.push(cardImgs[i]);
             cardImgs.splice(i,1);
         }
     }
@@ -156,30 +161,25 @@ function dealDealerDown() {
     img.src = "./assets/images/card-back.png"
     img.setAttribute('class', 'card')
     document.getElementById('dealer-hand').appendChild(img);
-}
-
-function revealDealerCard() {
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
-            let img = document.createElement('img');
-            img.src = cardImgs[i].source;
-            img.setAttribute('class', "card cpu-hand");
-            document.getElementById('dealer-hand').appendChild(img);
-            discardPile.push(cardImgs[i]);
-            console.log(discardPile);
+            dealerHand.push(cardImgs[i]);
             cardImgs.splice(i,1);
-            console.log(cardImgs);
+            console.log(cpu1Hand);
+            console.log(playerHand);
+            console.log(cpu2Hand);
+            console.log(dealerHand);
         }
     }
 }
 
+
+function revealDealerCard() {
+    
+}
+
 function testForBlackjack() {
-    let dealerHand = document.getElementById('dealer-hand');
-    let dealerCardOne = dealerHand.children[0].getAttribute('data-type');
-    if (dealerCardOne == 10) {
-        
-    }
 }
 
 function endRound() {

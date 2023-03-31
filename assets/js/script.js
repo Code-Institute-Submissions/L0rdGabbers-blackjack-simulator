@@ -1,33 +1,3 @@
-//Waits for the DOM to finish loading before beginning the first round
-//Gets the bet's input element and adds an event listener to it
-//Checks to ensure player's bet is valid and if valid
-//will remove player's bet from winnings
-document.addEventListener("DOMContentLoaded", function() {
-    let bet = document.getElementById('bet');
-    bet.addEventListener('keypress', function collectBets(event) {
-        if (event.key === "Enter") {
-            if (this.valueAsNumber === 0) {
-                alert("You gotta pay to play round 'ere")
-            } else if (this.valueAsNumber < 0) {
-                alert("I ain't givin' you money!")
-            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
-                alert("I'm sorry kiddo, we don't accept pretend money here...")
-            } else {
-                alert("Collecting bets ...")
-                let subtractBet = (this.valueAsNumber);
-                let oldScore = parseFloat(document.getElementById('score').innerHTML);
-                let newScore = oldScore - subtractBet;
-                let bet = document.getElementById('bet')
-                document.getElementById('score').innerHTML = newScore;
-                bet.setAttribute("max", newScore);
-                bet.removeEventListener('keypress', collectBets);
-                bet.value = ''
-                beginRound();
-            }
-        }
-    })
-})
-
 let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2},
     {source: "./assets/images/2oh-card.png", card: "Two of Hearts", points: 2}, {source: "./assets/images/2os-card.png", card: "Two of Spades", points: 2},
     {source: "./assets/images/3oc-card.png", card: "Three of Clubs", points: 3}, {source: "./assets/images/3od-card.png", card: "Three of Diamonds", points: 3},
@@ -64,6 +34,39 @@ let cpu1Hand = []
 let cpu2Hand = []
 
 let dealerHand = []
+
+let playerBet = []
+
+//Gets the bet's input element and adds an event listener to it
+//Checks to ensure player's bet is valid and if valid
+//will remove player's bet from winnings
+let betInput = document.getElementById('bet');
+    betInput.addEventListener('keypress', function collectBets(event) {
+        if (event.key === "Enter") {
+            if (this.valueAsNumber === 0) {
+                alert("You gotta pay to play round 'ere")
+            } else if (this.valueAsNumber < 0) {
+                alert("I ain't givin' you money!")
+            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
+                alert("I'm sorry kiddo, we don't accept pretend money here...")
+            } else if (this.innerHTML == NaN) {
+                alert("Well, kiddo, we're waiting on ya...")
+            } else {
+                alert("Collecting bets ...")
+                let subtractBet = (this.valueAsNumber);
+                let oldScore = parseFloat(document.getElementById('score').innerHTML);
+                let newScore = oldScore - subtractBet;
+                let betInput = document.getElementById('bet')
+                document.getElementById('score').innerHTML = newScore;
+                betInput.setAttribute("max", newScore);
+                betInput.removeEventListener('keypress', collectBets);
+                betInput.value = ''
+                playerBet.push(subtractBet)
+                console.log(playerBet[0])
+                beginRound();
+            }
+        }
+    })
 
 function beginRound() {
     if (cardImgs.length != 0) { 

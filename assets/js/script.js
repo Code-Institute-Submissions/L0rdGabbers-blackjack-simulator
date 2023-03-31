@@ -25,25 +25,33 @@ let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", p
     {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11, face: "ace"}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11, face: "ace"},
     {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11, face: "ace"}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11, face: "ace"},]
 
-let discardPile = []
+let discardPile = [];
 
-let playerHand = []
+let playerHand = [];
 
-let playerScore = 0
+let playerScore = 0;
 
-let cpu1Hand = []
+let cpu1Hand = [];
 
-let cpu1Score = 0
+let cpu1Score = 0;
 
-let cpu2Hand = []
+let cpu2Hand = [];
 
-let cpu2Score = 0
+let cpu2Score = 0;
 
-let dealerHand = []
+let dealerHand = [];
 
-let dealerScore = 0
+let dealerScore = 0;
 
-let playerBet = []
+let playerBet = [];
+
+let playerBlackjack = false;
+
+let cpu1Blackjack = false;
+
+let cpu2Blackjack = false;
+
+let dealerBlackjack = false;
 
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
@@ -190,6 +198,22 @@ function dealDealerDown() {
 }
 
 function testForBlackjack() {
+    if (cpu1Score == 21) {
+        cpu1Blackjack = true;
+    }
+    if (playerScore == 21) {
+        playerBlackjack = true;
+    }
+    if (cpu2Score == 21) {
+        cpu2Blackjack = true;
+    }
+    insurancePhase();
+}
+
+function insurancePhase() {
+    if (dealerHand[0].points >= 10) {
+        alert("Would you like to buy some insurance")
+    }
 }
 
 function revealDealerCard() {

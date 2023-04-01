@@ -182,14 +182,40 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotate(-40deg);
 }
 
-#speech-bubble {
+#bubble {
     position: fixed;
     top: 20%;
+    display: none;
+    justify-content: center;
 }
 
-#speech-bubble > img {
-    width: 32rem;
+#bubble > img {
+    width: 40rem;
     transform: rotate(180deg);
     background: transparent;
 
+}
+
+#bubble-content {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: center;
+    top: 37%;
+    width: 30%;
+    text-align: center;
+}
+
+#bubble-content p {
+    color: #000;
+    word-wrap: break-word;
+}
+
+#close-bubble {
+    text-decoration: underline;
+}
+
+#close-bubble {
+    color: #FF0000;
 }

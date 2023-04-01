@@ -45,6 +45,8 @@ let dealerScore = 0;
 
 let playerBet = [];
 
+let betStage = true;
+
 let playerBlackjack = false;
 
 let cpu1Blackjack = false;
@@ -53,36 +55,57 @@ let cpu2Blackjack = false;
 
 let dealerBlackjack = false;
 
+let bubble = document.getElementById('bubble');
+
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
 //will remove player's bet from winnings
 let betInput = document.getElementById('bet');
-    betInput.addEventListener('keypress', function collectBets(event) {
-        if (event.key === "Enter") {
-            if (this.valueAsNumber === 0) {
-                alert("You gotta pay to play round 'ere")
-            } else if (this.valueAsNumber < 0) {
-                alert("I ain't givin' you money!")
-            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
-                alert("I'm sorry kiddo, we don't accept pretend money here...")
-            } else if (this.value == "") {
-                alert("Well, kiddo, we're waiting on ya...")
-            } else {
-                alert("Collecting bets ...")
-                let subtractBet = (this.valueAsNumber);
-                let oldScore = parseFloat(document.getElementById('score').innerHTML);
-                let newScore = oldScore - subtractBet;
-                let betInput = document.getElementById('bet')
-                document.getElementById('score').innerHTML = newScore;
-                betInput.setAttribute("max", newScore);
-                betInput.removeEventListener('keypress', collectBets);
-                betInput.value = ''
-                playerBet.push(subtractBet)
-                console.log(playerBet[0])
-                beginRound();
-            }
+betInput.addEventListener('keydown', function collectBets(event) {
+    if (event.key === "Enter") {
+        if (this.valueAsNumber === 0) {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "You gotta pay to play round 'ere.";
+            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.valueAsNumber < 0) {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "I ain't giving you money.";
+            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "You ain't got that kind of money.";
+            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.value == "") {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else {
+            let subtractBet = (this.valueAsNumber);
+            let oldScore = parseFloat(document.getElementById('score').innerHTML);
+            let newScore = oldScore - subtractBet;
+            let betInput = document.getElementById('bet')
+            document.getElementById('score').innerHTML = newScore;
+            betInput.setAttribute("max", newScore);
+            betInput.removeEventListener('keydown', collectBets);
+            betInput.value = '';
+            playerBet.push(subtractBet);
+            bubble.style.display = "none";
+            beginRound();
         }
-    })
+    }
+})
 
 function beginRound() {
     if (cardImgs.length != 0) { 

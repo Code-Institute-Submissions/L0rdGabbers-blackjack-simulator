@@ -233,8 +233,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 3000
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     if (playerScore == 21) {
         playerBlackjack = true;
@@ -244,8 +244,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 3000
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     if (cpu2Score == 21) {
         cpu2Blackjack = true;
@@ -255,8 +255,8 @@ function testForBlackjack() {
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 3000
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     insurancePhase();
 }

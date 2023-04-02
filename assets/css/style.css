@@ -222,6 +222,11 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: center;
 }
 
+#dealer-talk {
+    width: 75%;
+    margin-bottom: 0%;
+}
+
 #bubble-content > p {
     color: #000;
     word-wrap: break-word;

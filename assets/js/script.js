@@ -238,6 +238,10 @@ function testForBlackjack() {
     }
     if (playerScore == 21) {
         playerBlackjack = true;
+        winnings = parseFloat(playerBet * 1.5);
+        let oldScore = parseFloat(document.getElementById('score').innerHTML);
+        let newScore = oldScore + winnings;
+        document.getElementById('score').innerHTML = newScore;
         setTimeout(function() {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "You have Blackjack, congratulations!";

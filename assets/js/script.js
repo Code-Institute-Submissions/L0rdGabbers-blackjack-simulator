@@ -57,6 +57,8 @@ let dealerBlackjack = false;
 
 let bubble = document.getElementById('bubble');
 
+bubbleDelay = 2500;
+
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
 //will remove player's bet from winnings
@@ -103,6 +105,7 @@ betInput.addEventListener('keydown', function collectBets(event) {
             playerBet.push(subtractBet);
             bubble.style.display = "none";
             setTimeout(insurancePhase, 3000);
+            document.getElementById('close-bubble').innerHTML = "";
             beginRound();
         }
     }
@@ -224,12 +227,36 @@ function dealDealerDown() {
 function testForBlackjack() {
     if (cpu1Score == 21) {
         cpu1Blackjack = true;
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "Clint has Blackjack, congratulations!";
+        }, bubbleDelay)
+        setTimeout(function() {
+            bubble.style.display = "none";
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 3000
     }
     if (playerScore == 21) {
         playerBlackjack = true;
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "You have Blackjack, congratulations!";
+        }, bubbleDelay)
+        setTimeout(function() {
+            bubble.style.display = "none";
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 3000
     }
     if (cpu2Score == 21) {
         cpu2Blackjack = true;
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "Mary has Blackjack, congratulations!";
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 3000
     }
     insurancePhase();
 }
@@ -238,11 +265,11 @@ function insurancePhase() {
     if (dealerHand[0].points >= 10) { 
         setTimeout(function() {
             bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "Would you like to play on, buy insurance or surrender?";
+            document.getElementById('bubble-content').children[0].innerHTML = "Would you like to buy insurance, play on, or surrender?";
             document.getElementById('close-bubble').innerHTML = "PLAY";
             document.getElementById('insure').innerHTML = "INSURE";
             document.getElementById('surrender').innerHTML = "SURRENDER";
-        }, 2500);
+        }, bubbleDelay);
     }
 }
 

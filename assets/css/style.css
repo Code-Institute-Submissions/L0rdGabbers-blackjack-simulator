@@ -216,6 +216,6 @@ input[type=number]::-webkit-outer-spin-button {
     text-decoration: underline;
 }
 
-#close-bubble {
+#close-bubble:hover {
     color: #FF0000;
 }

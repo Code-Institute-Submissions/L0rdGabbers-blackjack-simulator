@@ -102,6 +102,7 @@ betInput.addEventListener('keydown', function collectBets(event) {
             betInput.value = '';
             playerBet.push(subtractBet);
             bubble.style.display = "none";
+            setTimeout(insurancePhase, 3000);
             beginRound();
         }
     }
@@ -234,10 +235,15 @@ function testForBlackjack() {
 }
 
 function insurancePhase() {
-    if (dealerHand[0].points >= 10) {
-        alert("Would you like to buy some insurance")
+    if (dealerHand[0].points >= 10) { 
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            document.getElementById('bubble-content').children[0].innerHTML = "Would you like to play on, buy insurance or surrender?";
+            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+        }, 3000);
     }
 }
+
 
 function revealDealerCard() {
     

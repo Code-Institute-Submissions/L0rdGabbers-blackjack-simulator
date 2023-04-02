@@ -143,7 +143,7 @@ function dealCpu1() {
         if (drawCardNumber == i) {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
-            img.setAttribute('class', "card cpu-card");
+            img.setAttribute('class', "cpu-card");
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu1-hand').appendChild(img);
             cpu1Hand.push(cardImgs[i]);
@@ -173,7 +173,7 @@ function dealCpu2() {
         if (drawCardNumber == i) {
             let img = document.createElement('img');
             img.src = cardImgs[i].source;
-            img.setAttribute('class', "card cpu-card");
+            img.setAttribute('class', "cpu-card");
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu2-hand').appendChild(img);
             cpu2Hand.push(cardImgs[i]);

@@ -128,11 +128,18 @@ input[type=number]::-webkit-outer-spin-button {
 
 .card {
     max-height: 14rem;
+    animation-name: verticaldeal;
+    animation-duration: 2s;
+    background: transparent;
 }
 
 .cpu-card {
     transform: rotate(-90deg);
     margin: -1.8rem;
+    max-height: 14rem;
+    animation-name: horizontaldeal;
+    animation-duration: 2s;
+    background: transparent;
 }
 
 .hand {
@@ -218,4 +225,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 #close-bubble:hover {
     color: #FF0000;
+}
+
+@keyframes verticaldeal {
+    from {height: 14rem; width: 0rem;}
+    to {height: 14rem; width: 10.25rem;}
+}
+
+@keyframes horizontaldeal {
+    from {height: 0; width: 10.25rem;}
+    to {height: 14rem; width: 10.25rem;}
 }

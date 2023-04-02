@@ -66,28 +66,28 @@ betInput.addEventListener('keydown', function collectBets(event) {
         if (this.valueAsNumber === 0) {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "You gotta pay to play round 'ere.";
-            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            document.getElementById('close-bubble').innerHTML = "OK";
             bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
             })
         } else if (this.valueAsNumber < 0) {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "I ain't giving you money.";
-            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            document.getElementById('close-bubble').innerHTML = "OK";
             bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
             })
         } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "You ain't got that kind of money.";
-            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            document.getElementById('close-bubble').innerHTML = "OK";
             bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
             })
         } else if (this.value == "") {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
-            document.getElementById('bubble-content').children[1].innerHTML = "OK";
+            document.getElementById('close-bubble').innerHTML = "OK";
             bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
             })
@@ -239,8 +239,10 @@ function insurancePhase() {
         setTimeout(function() {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "Would you like to play on, buy insurance or surrender?";
-            document.getElementById('bubble-content').children[1].innerHTML = "OK";
-        }, 3000);
+            document.getElementById('close-bubble').innerHTML = "PLAY";
+            document.getElementById('insure').innerHTML = "INSURE";
+            document.getElementById('surrender').innerHTML = "SURRENDER";
+        }, 2500);
     }
 }
 

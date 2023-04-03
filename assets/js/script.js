@@ -62,6 +62,10 @@ bubbleDelay = 2500;
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
 //will remove player's bet from winnings
+setTimeout(function() {
+    bubble.style.display = "flex";
+    document.getElementById('bubble-content').children[0].innerHTML = "Howdy, Partner, siddown and place your bet.";
+}, 3000)
 let betInput = document.getElementById('bet');
 betInput.addEventListener('keydown', function collectBets(event) {
     if (event.key === "Enter") {
@@ -94,6 +98,7 @@ betInput.addEventListener('keydown', function collectBets(event) {
                 bubble.style.display = "none";
             })
         } else {
+            bubble.style.display = "none";
             let subtractBet = (this.valueAsNumber);
             let oldScore = parseFloat(document.getElementById('score').innerHTML);
             let newScore = oldScore - subtractBet;
@@ -241,13 +246,13 @@ function testForBlackjack() {
         winnings = parseFloat(playerBet * 1.5);
         let oldScore = parseFloat(document.getElementById('score').innerHTML);
         let newScore = oldScore + winnings;
-        document.getElementById('score').innerHTML = newScore;
         setTimeout(function() {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "You have Blackjack, congratulations!";
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
+            document.getElementById('score').innerHTML = newScore;
         }, (bubbleDelay + 3000));
         bubbleDelay += 3500
     }

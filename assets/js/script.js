@@ -1,4 +1,7 @@
-let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2, face: "two"}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2, face: "two"},
+const bubble = document.getElementById('bubble');
+const dealerTalk = document.getElementById('dealer-talk');
+const closeBubble = document.getElementById('close-bubble');
+const cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2, face: "two"}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2, face: "two"},
     {source: "./assets/images/2oh-card.png", card: "Two of Hearts", points: 2, face: "two"}, {source: "./assets/images/2os-card.png", card: "Two of Spades", points: 2, face: "two"},
     {source: "./assets/images/3oc-card.png", card: "Three of Clubs", points: 3, face: "three"}, {source: "./assets/images/3od-card.png", card: "Three of Diamonds", points: 3, face: "three"},
     {source: "./assets/images/3oh-card.png", card: "Three of Hearts", points: 3, face: "three"}, {source: "./assets/images/3os-card.png", card: "Three of Spades", points: 3, face: "three"},
@@ -25,54 +28,42 @@ let cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", p
     {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11, face: "ace"}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11, face: "ace"},
     {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11, face: "ace"}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11, face: "ace"},]
 
-let discardPile = [];
-
-let playerHand = [];
+const discardPile = [];
+const playerHand = [];
+const cpu1Hand = [];
+const cpu2Hand = [];
+const dealerHand = [];
+const playerBet = [];
 
 let playerScore = 0;
-
-let cpu1Hand = [];
-
 let cpu1Score = 0;
-
-let cpu2Hand = [];
-
 let cpu2Score = 0;
-
-let dealerHand = [];
-
 let dealerScore = 0;
 
-let playerBet = [];
-
 let betStage = true;
-
 let playerBlackjack = false;
-
 let cpu1Blackjack = false;
-
 let cpu2Blackjack = false;
-
-let dealerBlackjack = false;
-
-let bubble = document.getElementById('bubble');
-
-bubbleDelay = 2500;
+let dealerBlackjack = false
+let bubbleDelay = 2500;
 
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
 //will remove player's bet from winnings
 setTimeout(function() {
     bubble.style.display = "flex";
-    document.getElementById('bubble-content').children[0].innerHTML = "Howdy, Partner, siddown and place your bet.";
-}, 3000)
+}, 1000)
+dealerTalk.innerHTML = "Howdy, Partner, siddown and place your bet.";
+setTimeout(function() {
+    bubble.style.display = "none";
+}, 4500)
 let betInput = document.getElementById('bet');
 betInput.addEventListener('keydown', function collectBets(event) {
     if (event.key === "Enter") {
         if (this.valueAsNumber === 0) {
             bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "You gotta pay to play round 'ere.";
-            document.getElementById('close-bubble').innerHTML = "OK";
+            dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+            closeBubble.innerHTML = "OK";
             bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
             })

@@ -1,6 +1,12 @@
+const betInput = document.getElementById('bet');
 const bubble = document.getElementById('bubble');
 const dealerTalk = document.getElementById('dealer-talk');
 const closeBubble = document.getElementById('close-bubble');
+const insure = document.getElementById('insure');
+const surrender = document.getElementById('surrender');
+const winnings = document.getElementById('score');
+const playerCommands = document.getElementById('player-commands').children;
+const dealerDisplay = document.getElementById('dealer-hand');
 const cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs", points: 2, face: "two"}, {source: "./assets/images/2od-card.png", card: "Two of Diamonds", points: 2, face: "two"},
     {source: "./assets/images/2oh-card.png", card: "Two of Hearts", points: 2, face: "two"}, {source: "./assets/images/2os-card.png", card: "Two of Spades", points: 2, face: "two"},
     {source: "./assets/images/3oc-card.png", card: "Three of Clubs", points: 3, face: "three"}, {source: "./assets/images/3od-card.png", card: "Three of Diamonds", points: 3, face: "three"},
@@ -56,74 +62,67 @@ setTimeout(function() {
 dealerTalk.innerHTML = "Howdy, Partner, siddown and place your bet.";
 setTimeout(function() {
     bubble.style.display = "none";
-}, 4500)
-let betInput = document.getElementById('bet');
-betInput.addEventListener('keydown', function collectBets(event) {
-    if (event.key === "Enter") {
-        if (this.valueAsNumber === 0) {
-            bubble.style.display = "flex";
-            dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
-            closeBubble.innerHTML = "OK";
-            bubble.children[1].addEventListener('click', function() {
+    betInput.addEventListener('keydown', function collectBets(event) {
+        if (event.key === "Enter") {
+            if (this.valueAsNumber === 0) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+                closeBubble.innerHTML = "OK";
+                bubble.children[1].addEventListener('click', function() {
+                    bubble.style.display = "none";
+                })
+            } else if (this.valueAsNumber < 0) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "I ain't giving you money.";
+                closeBubble.innerHTML = "OK";
+                bubble.children[1].addEventListener('click', function() {
+                    bubble.style.display = "none";
+                })
+            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "You ain't got that kind of money.";
+                closeBubble.innerHTML = "OK";
+                bubble.children[1].addEventListener('click', function() {
+                    bubble.style.display = "none";
+                })
+            } else if (this.value == "") {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+                closeBubble.innerHTML = "OK";
+                bubble.children[1].addEventListener('click', function() {
+                    bubble.style.display = "none";
+                })
+            } else {
                 bubble.style.display = "none";
-            })
-        } else if (this.valueAsNumber < 0) {
-            bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "I ain't giving you money.";
-            document.getElementById('close-bubble').innerHTML = "OK";
-            bubble.children[1].addEventListener('click', function() {
+                let subtractBet = (this.valueAsNumber);
+                let oldScore = parseFloat(document.getElementById('score').innerHTML);
+                let newScore = oldScore - subtractBet;
+                let betInput = document.getElementById('bet')
+                winnings.innerHTML = newScore;
+                betInput.setAttribute("max", newScore);
+                betInput.removeEventListener('keydown', collectBets);
+                betInput.value = '';
+                playerBet.push(subtractBet);
                 bubble.style.display = "none";
-            })
-        } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
-            bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "You ain't got that kind of money.";
-            document.getElementById('close-bubble').innerHTML = "OK";
-            bubble.children[1].addEventListener('click', function() {
-                bubble.style.display = "none";
-            })
-        } else if (this.value == "") {
-            bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
-            document.getElementById('close-bubble').innerHTML = "OK";
-            bubble.children[1].addEventListener('click', function() {
-                bubble.style.display = "none";
-            })
-        } else {
-            bubble.style.display = "none";
-            let subtractBet = (this.valueAsNumber);
-            let oldScore = parseFloat(document.getElementById('score').innerHTML);
-            let newScore = oldScore - subtractBet;
-            let betInput = document.getElementById('bet')
-            document.getElementById('score').innerHTML = newScore;
-            betInput.setAttribute("max", newScore);
-            betInput.removeEventListener('keydown', collectBets);
-            betInput.value = '';
-            playerBet.push(subtractBet);
-            bubble.style.display = "none";
-            setTimeout(insurancePhase, 3000);
-            document.getElementById('close-bubble').innerHTML = "";
-            beginRound();
+                setTimeout(insurancePhase, 3000);
+                closeBubble.innerHTML = "";
+                beginRound();
+            }
         }
-    }
-})
+    })
+}, 4500)
 
 function beginRound() {
-    if (cardImgs.length != 0) { 
+    if (cardImgs.length >= 8) { 
         for (let i = 0; i < 8; i++) {
-            if (i == 0) {
+            if (i === 0 || i === 4) {
                 dealCpu1();
-            } else if (i == 1) {
+            } else if (i === 1 || i === 5) {
                 dealPlayer();
-            } else if (i == 2) {
+            } else if (i === 2 || i === 6) {
                 dealCpu2();
-            } else if (i == 3) {
+            } else if (i === 3) {
                 dealDealerUp();
-            } else if (i == 4) {
-                dealCpu1();
-            } else if (i == 5) {
-                dealPlayer();
-            } else if (i == 6) {
-                dealCpu2();
             } else if (i == 7) {
                 dealDealerDown();
             }
@@ -191,7 +190,7 @@ function dealDealerUp() {
             img.setAttribute('class', "card");
             img.setAttribute('alt', `${cardImgs[i].card}`);
             img.setAttribute('data-type', `${cardImgs[i].points}` );
-            document.getElementById('dealer-hand').appendChild(img);
+            dealerDisplay.appendChild(img);
             dealerHand.push(cardImgs[i]);
             cardImgs.splice(i,1);
         }
@@ -202,7 +201,7 @@ function dealDealerDown() {
     let img = document.createElement('img');
     img.src = "./assets/images/card-back.png"
     img.setAttribute('class', 'card')
-    document.getElementById('dealer-hand').appendChild(img);
+    dealerDisplay.appendChild(img);
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
         if (drawCardNumber == i) {
@@ -265,29 +264,107 @@ function insurancePhase() {
     if (dealerHand[0].points >= 10) { 
         setTimeout(function() {
             bubble.style.display = "flex";
-            document.getElementById('bubble-content').children[0].innerHTML = "Would you like to buy insurance, play on, or surrender?";
-            document.getElementById('close-bubble').innerHTML = "PLAY";
-            document.getElementById('insure').innerHTML = "INSURE";
-            document.getElementById('surrender').innerHTML = "SURRENDER";
+            dealerTalk.innerHTML = "Would you like to buy insurance, play on, or surrender?";
+            insure.innerHTML = "INSURE";
+            closeBubble.innerHTML = "PLAY";
+            surrender.innerHTML = "SURRENDER";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+                cpu1Play();
+            })
         }, bubbleDelay);
+    } else {
+        cpu1Play();
     }
 }
 
-
-function revealDealerCard() {
-    
+function cpu1Play() {
+    if (cpu1Blackjack === false && cpu1Score < 21) {
+        let nextMove = shouldHit(cpu1Score);
+        if (nextMove === true) {
+            dealCpu1();
+            cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1];
+            cpu1Play();
+        } else if (nextMove === false) {
+            playerPlay();
+        }
+    } else {
+        playerPlay();
+    }
 }
 
+function playerPlay() {
+    if (playerBlackjack === false && playerScore < 21) {
+        for (let i = 0; i < playerCommands.length; i++) {
+            playerCommands[i].style.color = "#ffffff"
+        }
+        playerCommands[0].addEventListener('click', hit)
+        playerCommands[1].addEventListener('click', stand)
+    } else if (playerBlackjack === true) {
+        cpu2Play();
+    }
+}
 
-function endRound() {
+function cpu2Play() {
+    if (cpu2Blackjack === false && cpu2Score < 21) {
+        let nextMove = shouldHit(cpu2Score);
+        if (nextMove === true) {
+            dealCpu2();
+            cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1];
+            cpu2Play();
+        } else if (nextMove === false) {
+            revealDealerCard();
+        }
+    } else {
+        revealDealerCard();
+    }
+}
 
+function shouldHit(handTotal) {
+    const safeTotal = 12;
+
+    if (handTotal < safeTotal) {
+        return true;
+    }
+
+    const randChance = (Math.random() * 1).toFixed(2);
+    const handChance = handTotal < 15 ? (handTotal - 10) /
+30 : ((handTotal - 10) / 10) + 0.2;
+
+    if (handChance < +randChance && handChance < 17) {
+        return true;
+    }
+
+    return false;
+}
+
+function revealDealerCard() {
+    dealerDisplay.removeChild(dealerDisplay.children[1])
+    let img = document.createElement('img');
+    img.src = dealerHand[1].source;
+    img.setAttribute('class', "card");
+    img.setAttribute('alt', `${dealerHand[1].card}`);
+    img.setAttribute('data-type', `${dealerHand[1].points}` );
+    dealerDisplay.appendChild(img);
 }
 
 function hit() {
-
+    dealPlayer();
+    playerScore = playerScore + playerHand[playerHand.length -1];
+    playerCommands[0].removeEventListener('click', hit)
+    playerPlay();
 }
 
 function stand() {
+    for (let i = 0; i < playerCommands.length; i++) {
+        playerCommands[i].style.color  = "#a0a0a0";
+    }
+    playerCommands[0].removeEventListener('click', hit);
+    playerCommands[1].removeEventListener('click', stand);
+    cpu2Play();
+}
+
+function endRound() {
 
 }
 

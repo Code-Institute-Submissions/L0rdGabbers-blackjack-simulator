@@ -244,7 +244,13 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .bubble-interact:hover {
-    color: #ff0000
+    color: #ff0000;
+    cursor: pointer;
+}
+
+.card-disappear {
+    animation-name: disappear;
+    animation-duration: 2s;
 }
 
 @keyframes verticaldeal {
@@ -255,4 +261,9 @@ input[type=number]::-webkit-outer-spin-button {
 @keyframes horizontaldeal {
     from {height: 0; width: 10.25rem;}
     to {height: 14rem; width: 10.25rem;}
+}
+
+@keyframes disappear {
+    from {opacity: 100%;}
+    to {opacity: 0%;}
 }

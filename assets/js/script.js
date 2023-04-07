@@ -59,7 +59,7 @@ let bubbleDelay = 2500;
 setTimeout(function() {
     bubble.style.display = "flex";
 }, 1000)
-dealerTalk.innerHTML = "Howdy, Partner, siddown and place your bet.";
+dealerTalk.innerHTML = "Howdy Pardner, siddown and place your bet at the bottom of the table!";
 setTimeout(function() {
     bubble.style.display = "none";
     betInput.addEventListener('keydown', function collectBets(event) {
@@ -266,6 +266,9 @@ function testForBlackjack() {
         }, (bubbleDelay + 3000));
         bubbleDelay += 3500
     }
+    if (dealerScore === 21) {
+        dealerBlackjack = true;
+    }
     insurancePhase();
 }
 
@@ -277,23 +280,46 @@ function insurancePhase() {
             insure.innerHTML = "INSURE";
             closeBubble.innerHTML = "PLAY";
             surrender.innerHTML = "SURRENDER";
-            closeBubble.addEventListener('click', function() {
-                bubbleDelay = 2000;
-                bubble.style.display = "none";
-                dealerTalk.innerHTML = "";
-                insure.innerHTML = "";
-                closeBubble.innerHTML = "";
-                surrender.innerHTML = "";
-                cpu1Play();
-            })
+            console.log("Running?")
+            closeBubble.addEventListener('click', revealIfBlackjack)
         }, bubbleDelay);
     } else {
-        bubbleDelay = 2000;
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
         surrender.innerHTML = "";
-        console.log("does it loop?")
         setTimeout(cpu1Play, 2000); 
+    }
+    bubbleDelay = 2000;
+}
+
+function revealIfBlackjack() {
+    console.log("Yes... I am running")
+    if (dealerScore < 21) {
+        console.log("Test")
+        bubble.style.display = "none";
+        dealerTalk.innerHTML = "";
+        insure.innerHTML = "";
+        closeBubble.innerHTML = "";
+        surrender.innerHTML = "";
+        cpu1Play(); 
+    } else if (dealerScore = 21) {
+        if (playerScore < 21) {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            insure.innerHTML = "";
+            closeBubble.innerHTML = "";
+            surrender.innerHTML = "";
+            revealDealerCard();
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "The house has Blackjack!";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                endRound();
+            }, bubbleDelay + 2000);
+        }
     }
 }
 
@@ -481,7 +507,52 @@ function stand() {
 }
 
 function endRound() {
+    playerScore = 0;
+    cpu1Score = 0;
+    cpu2Score = 0;
+    dealerScore = 0;
 
+    betStage = true;
+    playerBlackjack = false;
+    cpu1Blackjack = false;
+    cpu2Blackjack = false;
+    dealerBlackjack = false
+    bubbleDelay = 2500;
+
+    for (let i = 0; i < cpu1Hand.length; i++) {
+        document.getElementById('cpu1-hand');
+        hand.children.setAttribute('class', "card-disappear");
+        hand.removeChild(hand.children[i]);
+        discardPile.push(cpu1Hand[i]);
+    }
+    for (let i = 0; i < playerHand.length; i++) {
+        let hand = document.getElementById('player-hand');
+        hand.children.setAttribute('class', 'card-disappear');
+        hand.removeChild(hand.children[i]);
+        discardPile.push(playerHand[i]);
+    }
+    for (let i = 0; i < cpu2Hand.length; i++) {
+        let hand = document.getElementById('cpu2-hand');
+        hand.children.setAttribute('class', 'card-disappear');
+        hand.removeChild(hand.children[i]);
+        discardPile.push(cpu2Hand[i]);
+    }
+    for (let i = 0; i < dealerHand.length; i++) {
+        let hand = document.getElementById('dealer-hand');
+        hand.children.setAttribute('class', 'card-disappear');
+        hand.removeChild(hand.children[i]);
+        discardPile.push(dealerHand[i]);
+    }
+
+    let img = document.createElement('img');
+    img.src = "./assets/images/card-back.png"
+    img.setAttribute('class', 'card')
+    
+    setTimeout(function() {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "Fancy play another hand?";
+        closeBubble.innerHTML = "Make another bet at the bottom of the table."
+    }, 3000)
 }
 
 function split() {

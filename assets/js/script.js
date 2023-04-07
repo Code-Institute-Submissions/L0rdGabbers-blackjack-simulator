@@ -182,8 +182,8 @@ function dealCpu2() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu2-hand').appendChild(img);
             cpu2Hand.push(cardImgs[i]);
-            if (cpu1Hand.length > 1) {
-                img.style.top = `${(40 + (5 * (cpu1Hand.length - 1)))}%`
+            if (cpu2Hand.length > 1) {
+                img.style.top = `${(40 + (5 * (cpu2Hand.length - 1)))}%`
             }
             cardImgs.splice(i,1);
         }
@@ -287,10 +287,13 @@ function insurancePhase() {
                 surrender.innerHTML = "";
                 cpu1Play();
             })
-        }, 2000);
+        }, bubbleDelay);
     } else {
         bubbleDelay = 2000;
-        setTimeout(cpu1Play, 2000); 
+        insure.innerHTML = "";
+        closeBubble.innerHTML = "";
+        surrender.innerHTML = "";
+        setTimeout(cpu1Play, 3000); 
     }
 }
 
@@ -300,12 +303,48 @@ function cpu1Play() {
         if (nextMove === true) {
             dealCpu1();
             cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1];
-            cpu1Play();
+            if (cpu1Score <= 16) {
+                setTimeout(cpu1Play, bubbleDelay);
+            } else if (cpu1Score >= 17 && cpu1Score < 22) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = `Clint stands on ${cpu1Score}.`;
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = "";
+                    playerPlay();
+                }, bubbleDelay);
+            } else if (cpu1Score > 21) {
+                setTimeout(function() {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = `Clint's gone bust`;
+                }, bubbleDelay);
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = "";
+                    playerPlay();
+                }, bubbleDelay + 2000);
+            }
         } else if (nextMove === false) {
-            playerPlay();
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = `Clint stands on ${cpu1Score}.`;
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                playerPlay();
+            }, bubbleDelay + 2000);
         }
     } else if (cpu1Score > 21) {
-        playerPlay();
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "Clint's gone bust.";
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            playerPlay();
+        }, bubbleDelay + 2000);
     } else if (cpu1Blackjack == true) {
         playerPlay();
     }
@@ -331,9 +370,27 @@ function cpu2Play() {
             cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1];
             cpu2Play();
         } else if (nextMove === false) {
-            revealDealerCard();
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "Mary stands.";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                revealDealerCard();
+            }, bubbleDelay + 2000);
         }
-    } else {
+    } else if (cpu1Score > 21) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "Mary's gone bust.";
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            playerPlay();
+        }, bubbleDelay + 2000);
+    }else {
         revealDealerCard();
     }
 }

@@ -301,8 +301,10 @@ function cpu1Play() {
     if (cpu1Blackjack == false && cpu1Score < 21) {
         let nextMove = shouldHit(cpu1Score);
         if (nextMove === true) {
-            dealCpu1();
-            cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
+            setTimeout(function() {
+                dealCpu1();
+                cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
+            }, 1000);
             if (cpu1Score <= 16) {
                 setTimeout(cpu1Play, bubbleDelay);
             } else if (cpu1Score >= 17 && cpu1Score < 22) {
@@ -324,7 +326,7 @@ function cpu1Play() {
                     playerPlay();
                 }, bubbleDelay + 2000);
             }
-        } else if (nextMove === false) {
+        } else {
             setTimeout(function() {
                 bubble.style.display = "flex";
                 dealerTalk.innerHTML = `Clint stands on ${cpu1Score}.`;
@@ -373,13 +375,35 @@ function playerPlay() {
 }
 
 function cpu2Play() {
-    if (cpu2Blackjack === false && cpu2Score < 21) {
+    if (cpu2Blackjack == false && cpu2Score < 21) {
         let nextMove = shouldHit(cpu2Score);
         if (nextMove === true) {
-            dealCpu2();
-            cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
-            cpu2Play();
-        } else if (nextMove === false) {
+            setTimeout(function() {
+                dealCpu2();
+                cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
+            }, 1000);
+            if (cpu2Score <= 16) {
+                setTimeout(cpu2Play, bubbleDelay);
+            } else if (cpu2Score >= 17 && cpu2Score < 22) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = `Mary stands on ${cpu2Score}.`;
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = "";
+                    revealDealerCard();
+                }, bubbleDelay);
+            } else if (cpu2Score > 21) {
+                setTimeout(function() {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = `Mary's gone bust`;
+                }, bubbleDelay);
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = "";
+                    revealDealerCard();
+                }, bubbleDelay + 2000);
+            }
+        } else {
             setTimeout(function() {
                 bubble.style.display = "flex";
                 dealerTalk.innerHTML = `Mary stands on ${cpu2Score}.`;
@@ -388,9 +412,9 @@ function cpu2Play() {
                 bubble.style.display = "none";
                 dealerTalk.innerHTML = "";
                 revealDealerCard();
-            }, bubbleDelay + 2000);
+            }, bubbleDelay + 1000);
         }
-    } else if (cpu1Score > 21) {
+    } else if (cpu2Score > 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "Mary's gone bust.";
@@ -398,18 +422,10 @@ function cpu2Play() {
         setTimeout(function() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
-            playerPlay();
-        }, bubbleDelay + 2000);
-    }else {
-        setTimeout(function() {
-            bubble.style.display = "flex";
-            dealerTalk.innerHTML = `Mary stands on ${cpu2Score}.`;
-        }, bubbleDelay);
-        setTimeout(function() {
-            bubble.style.display = "none";
-            dealerTalk.innerHTML = "";
             revealDealerCard();
         }, bubbleDelay + 2000);
+    } else if (cpu2Blackjack == true) {
+        revealDealerCard();
     }
 }
 

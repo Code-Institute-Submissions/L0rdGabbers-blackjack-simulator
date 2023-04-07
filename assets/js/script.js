@@ -1,5 +1,5 @@
-const betInput = document.getElementById('bet');
 const bubble = document.getElementById('bubble');
+const betInput = document.getElementById('bet');
 const dealerTalk = document.getElementById('dealer-talk');
 const closeBubble = document.getElementById('close-bubble');
 const insure = document.getElementById('insure');
@@ -146,6 +146,9 @@ function dealCpu1() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu1-hand').appendChild(img);
             cpu1Hand.push(cardImgs[i]);
+            if (cpu1Hand.length > 1) {
+                img.style.top = `${(40 + (5 * (cpu1Hand.length - 1)))}%`
+            }
             cardImgs.splice(i,1);
         }
     }
@@ -161,6 +164,9 @@ function dealPlayer() {
             img.setAttribute('alt', `${cardImgs[i].card}`)
             document.getElementById('player-hand').appendChild(img);
             playerHand.push(cardImgs[i]);
+            if (playerHand.length > 1) {
+                img.style.left = `${(40 + (5 * (playerHand.length - 1)))}%`
+            }
             cardImgs.splice(i,1);
         }
     }
@@ -176,6 +182,9 @@ function dealCpu2() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu2-hand').appendChild(img);
             cpu2Hand.push(cardImgs[i]);
+            if (cpu1Hand.length > 1) {
+                img.style.top = `${(40 + (5 * (cpu1Hand.length - 1)))}%`
+            }
             cardImgs.splice(i,1);
         }
     }
@@ -201,6 +210,7 @@ function dealDealerDown() {
     let img = document.createElement('img');
     img.src = "./assets/images/card-back.png"
     img.setAttribute('class', 'card')
+    img.style.left = "45%"
     dealerDisplay.appendChild(img);
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
@@ -233,7 +243,7 @@ function testForBlackjack() {
     }
     if (playerScore == 21) {
         playerBlackjack = true;
-        winnings = parseFloat(playerBet * 1.5);
+        let winnings = parseFloat(playerBet[0] * 1.5);
         let oldScore = parseFloat(document.getElementById('score').innerHTML);
         let newScore = oldScore + winnings;
         setTimeout(function() {
@@ -268,13 +278,19 @@ function insurancePhase() {
             insure.innerHTML = "INSURE";
             closeBubble.innerHTML = "PLAY";
             surrender.innerHTML = "SURRENDER";
-            bubble.children[1].addEventListener('click', function() {
+            closeBubble.addEventListener('click', function() {
+                bubbleDelay = 2000;
                 bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                insure.innerHTML = "";
+                closeBubble.innerHTML = "";
+                surrender.innerHTML = "";
                 cpu1Play();
             })
-        }, bubbleDelay);
+        }, 2000);
     } else {
-        cpu1Play();
+        bubbleDelay = 2000;
+        setTimeout(cpu1Play, 2000); 
     }
 }
 
@@ -288,7 +304,9 @@ function cpu1Play() {
         } else if (nextMove === false) {
             playerPlay();
         }
-    } else {
+    } else if (cpu1Score > 21) {
+        playerPlay();
+    } else if (cpu1Blackjack == true) {
         playerPlay();
     }
 }
@@ -322,20 +340,16 @@ function cpu2Play() {
 
 function shouldHit(handTotal) {
     const safeTotal = 12;
-
-    if (handTotal < safeTotal) {
-        return true;
-    }
-
     const randChance = (Math.random() * 1).toFixed(2);
     const handChance = handTotal < 15 ? (handTotal - 10) /
 30 : ((handTotal - 10) / 10) + 0.2;
 
-    if (handChance < +randChance && handChance < 17) {
+    if (handTotal < safeTotal) {
         return true;
-    }
-
-    return false;
+    } else if (handChance < +randChance && handTotal < 17) {
+        return true;
+    } else {
+        return false;}
 }
 
 function revealDealerCard() {
@@ -345,6 +359,7 @@ function revealDealerCard() {
     img.setAttribute('class', "card");
     img.setAttribute('alt', `${dealerHand[1].card}`);
     img.setAttribute('data-type', `${dealerHand[1].points}` );
+    img.style.left = "45%"
     dealerDisplay.appendChild(img);
 }
 

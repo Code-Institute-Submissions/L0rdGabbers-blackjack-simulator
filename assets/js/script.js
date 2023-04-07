@@ -104,7 +104,6 @@ setTimeout(function() {
                 betInput.value = '';
                 playerBet.push(subtractBet);
                 bubble.style.display = "none";
-                setTimeout(insurancePhase, 3000);
                 closeBubble.innerHTML = "";
                 beginRound();
             }
@@ -293,11 +292,13 @@ function insurancePhase() {
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
         surrender.innerHTML = "";
+        console.log("does it loop?")
         setTimeout(cpu1Play, 2000); 
     }
 }
 
 function cpu1Play() {
+    console.log("Main run");
     if (cpu1Blackjack == false && cpu1Score < 21) {
         let nextMove = shouldHit(cpu1Score);
         if (nextMove === true) {
@@ -305,11 +306,13 @@ function cpu1Play() {
                 dealCpu1();
                 cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
             }, 1000);
+            console.log('runs')
             if (cpu1Score <= 16) {
                 setTimeout(cpu1Play, bubbleDelay);
             } else if (cpu1Score >= 17 && cpu1Score < 22) {
                 bubble.style.display = "flex";
                 dealerTalk.innerHTML = `Clint stands on ${cpu1Score}.`;
+                console.log("here")
                 setTimeout(function() {
                     bubble.style.display = "none";
                     dealerTalk.innerHTML = "";
@@ -355,7 +358,8 @@ function cpu1Play() {
 function playerPlay() {
     if (playerBlackjack == false && playerScore < 21) {
         for (let i = 0; i < playerCommands.length; i++) {
-            playerCommands[i].style.color = "#ffffff"
+            playerCommands[i].style.color = "#ffffff";
+            playerCommands[i].style.cursor = "pointer";
         }
         playerCommands[0].addEventListener('click', hit)
         playerCommands[1].addEventListener('click', stand)

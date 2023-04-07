@@ -184,6 +184,10 @@ input[type=number]::-webkit-outer-spin-button {
     bottom: 30%;
 }
 
+#player-commands p:hover {
+    cursor:not-allowed;
+}
+
 #dealer-hand {
     position: fixed;
     left: 40%;

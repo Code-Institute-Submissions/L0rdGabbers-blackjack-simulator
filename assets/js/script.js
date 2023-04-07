@@ -293,16 +293,16 @@ function insurancePhase() {
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
         surrender.innerHTML = "";
-        setTimeout(cpu1Play, 3000); 
+        setTimeout(cpu1Play, 2000); 
     }
 }
 
 function cpu1Play() {
-    if (cpu1Blackjack === false && cpu1Score < 21) {
+    if (cpu1Blackjack == false && cpu1Score < 21) {
         let nextMove = shouldHit(cpu1Score);
         if (nextMove === true) {
             dealCpu1();
-            cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1];
+            cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
             if (cpu1Score <= 16) {
                 setTimeout(cpu1Play, bubbleDelay);
             } else if (cpu1Score >= 17 && cpu1Score < 22) {
@@ -333,7 +333,7 @@ function cpu1Play() {
                 bubble.style.display = "none";
                 dealerTalk.innerHTML = "";
                 playerPlay();
-            }, bubbleDelay + 2000);
+            }, bubbleDelay + 1000);
         }
     } else if (cpu1Score > 21) {
         setTimeout(function() {
@@ -351,7 +351,7 @@ function cpu1Play() {
 }
 
 function playerPlay() {
-    if (playerBlackjack === false && playerScore < 21) {
+    if (playerBlackjack == false && playerScore < 21) {
         for (let i = 0; i < playerCommands.length; i++) {
             playerCommands[i].style.color = "#ffffff"
         }
@@ -359,6 +359,16 @@ function playerPlay() {
         playerCommands[1].addEventListener('click', stand)
     } else if (playerBlackjack === true) {
         cpu2Play();
+    } else if (playerScore > 21) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "You've gone bust.";
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            cpu2Play();
+        }, bubbleDelay + 2000);
     }
 }
 
@@ -367,12 +377,12 @@ function cpu2Play() {
         let nextMove = shouldHit(cpu2Score);
         if (nextMove === true) {
             dealCpu2();
-            cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1];
+            cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
             cpu2Play();
         } else if (nextMove === false) {
             setTimeout(function() {
                 bubble.style.display = "flex";
-                dealerTalk.innerHTML = "Mary stands.";
+                dealerTalk.innerHTML = `Mary stands on ${cpu2Score}.`;
             }, bubbleDelay);
             setTimeout(function() {
                 bubble.style.display = "none";
@@ -391,7 +401,15 @@ function cpu2Play() {
             playerPlay();
         }, bubbleDelay + 2000);
     }else {
-        revealDealerCard();
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `Mary stands on ${cpu2Score}.`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            revealDealerCard();
+        }, bubbleDelay + 2000);
     }
 }
 
@@ -422,8 +440,7 @@ function revealDealerCard() {
 
 function hit() {
     dealPlayer();
-    playerScore = playerScore + playerHand[playerHand.length -1];
-    playerCommands[0].removeEventListener('click', hit)
+    playerScore = playerScore + playerHand[playerHand.length -1].points;
     playerPlay();
 }
 
@@ -433,7 +450,14 @@ function stand() {
     }
     playerCommands[0].removeEventListener('click', hit);
     playerCommands[1].removeEventListener('click', stand);
-    cpu2Play();
+    
+    bubble.style.display = "flex";
+    dealerTalk.innerHTML = `Standing on ${playerScore}.`;
+    setTimeout(function() {
+        bubble.style.display = "none";
+        dealerTalk.innerHTML = "";
+        cpu2Play();
+    }, bubbleDelay);
 }
 
 function endRound() {

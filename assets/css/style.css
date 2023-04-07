@@ -180,13 +180,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 #player-hand {
     position: fixed;
-    left: 43%;
+    left: 40%;
     bottom: 30%;
 }
 
 #dealer-hand {
     position: fixed;
-    left: 43%;
+    left: 40%;
     top: 10%;
 }
 

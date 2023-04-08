@@ -31,8 +31,8 @@ const cardImgs = [{source: "./assets/images/2oc-card.png", card: "Two of Clubs",
     {source: "./assets/images/qoh-card.png", card: "Queen of Hearts", points: 10, face: "queen"}, {source: "./assets/images/qos-card.png", card: "Queen of Spades", points: 10, face: "queen"}, 
     {source: "./assets/images/koc-card.png", card: "King of Clubs", points: 10, face: "king"}, {source: "./assets/images/kod-card.png", card: "King of Diamonds", points: 10, face: "king"},
     {source: "./assets/images/koh-card.png", card: "King of Hearts", points: 10, face: "king"}, {source: "./assets/images/kos-card.png", card: "King of Spades", points: 10, face: "king"},
-    {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11, face: "ace"}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11, face: "ace"},
-    {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11, face: "ace"}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11, face: "ace"},]
+    {source: "./assets/images/aoc-card.png", card: "Ace of Clubs", points: 11, check: 0}, {source: "./assets/images/aod-card.png", card: "Ace of Diamonds", points: 11, check: 0},
+    {source: "./assets/images/aoh-card.png", card: "Ace of Hearts", points: 11, check: 0}, {source: "./assets/images/aos-card.png", card: "Ace of Spades", points: 11, check: 0},]
 
 const discardPile = [];
 const playerHand = [];
@@ -347,6 +347,7 @@ function cpu1Play() {
             setTimeout(function() {
                 dealCpu1();
                 cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
+                checkAces(cpu1Hand, cpu1Score);
             }, 1000);
             console.log('runs')
             if (cpu1Score <= 16) {
@@ -433,6 +434,7 @@ function cpu2Play() {
             setTimeout(function() {
                 dealCpu2();
                 cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
+                checkAces(cpu2Hand, cpu2Score);
             }, 1000);
             if (cpu2Score <= 16) {
                 setTimeout(cpu2Play, bubbleDelay);
@@ -510,7 +512,28 @@ function revealDealerCard() {
 function hit() {
     dealPlayer();
     playerScore = playerScore + playerHand[playerHand.length -1].points;
-    playerPlay();
+    if (playerScore > 21) {
+        if (checkAces(playerHand)) {
+            playerScore -= 10;
+            playerPlay();
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "You've gone bust.";
+                for (let i = 0; i < playerCommands.length; i++) {
+                    playerCommands[i].style.color  = "#a0a0a0";
+                    playerCommands[i].style.cursor = "not-allowed";
+                }
+                playerCommands[0].removeEventListener('click', hit);
+                playerCommands[1].removeEventListener('click', stand);
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                cpu2Play();
+            }, bubbleDelay + 2000)
+        }
+    }
 }
 
 function stand() {
@@ -527,6 +550,20 @@ function stand() {
         dealerTalk.innerHTML = "";
         cpu2Play();
     }, bubbleDelay);
+}
+
+function checkAces(checkHand) {
+    let evalHand = checkHand.filter((hand) => {
+        return hand.check == 0;
+    })
+    if (evalHand.length > 0) {
+        evalHand[0].points = 1;
+        evalHand[0].check = 1;
+        console.log(evalHand[0]);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function endRound() {

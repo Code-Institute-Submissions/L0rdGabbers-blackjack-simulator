@@ -219,7 +219,7 @@ function dealDealerDown() {
             cpu1Score = cpu1Hand[0].points + cpu1Hand[1].points;
             playerScore = playerHand[0].points + playerHand[1].points;
             cpu2Score = cpu2Hand[0].points + cpu2Hand[1].points;
-            dealerScore = dealerHand[0].points + dealerHand[1].points;
+            dealerScore = 21;
             console.log(cpu1Score);
             console.log(playerScore);
             console.log(cpu2Score);
@@ -273,7 +273,7 @@ function testForBlackjack() {
 }
 
 function insurancePhase() {
-    if (dealerHand[0].points >= 10) { 
+    if (dealerHand[0].points >= 2) { 
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "Would you like to buy insurance, play on, or surrender?";
@@ -507,6 +507,23 @@ function stand() {
 }
 
 function endRound() {
+    let cpu1Cards = document.getElementById('cpu1-hand').children;
+    let playerCards = document.getElementById('player-hand').children;
+    let cpu2Cards = document.getElementById('cpu2-hand').children;
+    let dealerCards = document.getElementById('dealer-hand').children;
+
+    for (let i = 0; i < cpu1Cards.length; i++) {
+        cpu1Cards[i].setAttribute('class', 'cpu1-disappear');
+    }
+
+    for (let i = 0; i < cpu2Cards.length; i++) {
+        cpu2Cards[i].setAttribute('class', 'cpu2-disappear');
+    }
+
+    let img = document.createElement('img');
+    img.src = "./assets/images/card-back.png"
+    img.setAttribute('class', 'card')
+
     playerScore = 0;
     cpu1Score = 0;
     cpu2Score = 0;
@@ -518,36 +535,8 @@ function endRound() {
     cpu2Blackjack = false;
     dealerBlackjack = false
     bubbleDelay = 2500;
-
-    for (let i = 0; i < cpu1Hand.length; i++) {
-        document.getElementById('cpu1-hand');
-        hand.children.setAttribute('class', "card-disappear");
-        hand.removeChild(hand.children[i]);
-        discardPile.push(cpu1Hand[i]);
-    }
-    for (let i = 0; i < playerHand.length; i++) {
-        let hand = document.getElementById('player-hand');
-        hand.children.setAttribute('class', 'card-disappear');
-        hand.removeChild(hand.children[i]);
-        discardPile.push(playerHand[i]);
-    }
-    for (let i = 0; i < cpu2Hand.length; i++) {
-        let hand = document.getElementById('cpu2-hand');
-        hand.children.setAttribute('class', 'card-disappear');
-        hand.removeChild(hand.children[i]);
-        discardPile.push(cpu2Hand[i]);
-    }
-    for (let i = 0; i < dealerHand.length; i++) {
-        let hand = document.getElementById('dealer-hand');
-        hand.children.setAttribute('class', 'card-disappear');
-        hand.removeChild(hand.children[i]);
-        discardPile.push(dealerHand[i]);
-    }
-
-    let img = document.createElement('img');
-    img.src = "./assets/images/card-back.png"
-    img.setAttribute('class', 'card')
     
+
     setTimeout(function() {
         bubble.style.display = "flex";
         dealerTalk.innerHTML = "Fancy play another hand?";
@@ -555,9 +544,6 @@ function endRound() {
     }, 3000)
 }
 
-function split() {
-
-}
 
 function doubleDown() {
 

@@ -248,9 +248,28 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
-.card-disappear {
-    animation-name: disappear;
-    animation-duration: 2s;
+.cpu1-disappear {
+    transform: rotate(-90deg);
+    margin: -1.8rem;
+    max-height: 14rem;
+    animation-name: v-disappear;
+    animation-duration: 1s;
+    background: transparent;
+    position: fixed;
+    top: 40%;
+    right: 17.25%;
+}
+
+.cpu2-disappear {
+    transform: rotate(-90deg);
+    margin: -1.8rem;
+    max-height: 14rem;
+    animation-name: v-disappear;
+    animation-duration: 1s;
+    background: transparent;
+    position: fixed;
+    top: 40%;
+    left: 17.25%;
 }
 
 @keyframes verticaldeal {
@@ -263,7 +282,12 @@ input[type=number]::-webkit-outer-spin-button {
     to {height: 14rem; width: 10.25rem;}
 }
 
-@keyframes disappear {
-    from {opacity: 100%;}
-    to {opacity: 0%;}
+@keyframes h-disappear {
+    from {height: 14rem; width: 10.25rem;}
+    to {height: 0; width: 10.25rem;}
+}
+
+@keyframes v-disappear {
+    from {height: 14rem; width: 10.25rem;}
+    to {height: 14rem; width: 0rem;}
 }

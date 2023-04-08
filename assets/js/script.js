@@ -347,9 +347,23 @@ function cpu1Play() {
             setTimeout(function() {
                 dealCpu1();
                 cpu1Score = cpu1Score + cpu1Hand[cpu1Hand.length -1].points;
-                checkAces(cpu1Hand, cpu1Score);
+                if (cpu1Score > 21) {
+                    if (checkAces(cpu1Hand)) {
+                        cpu1Score -= 10;
+                        cpu1Play();
+                    } else {
+                        setTimeout(function() {
+                            bubble.style.display = "flex";
+                            dealerTalk.innerHTML = "Clint's gone bust.";
+                        }, bubbleDelay);
+                        setTimeout(function() {
+                            bubble.style.display = "none";
+                            dealerTalk.innerHTML = "";
+                            playerPlay();
+                        }, bubbleDelay + 2000)
+                    }
+                }
             }, 1000);
-            console.log('runs')
             if (cpu1Score <= 16) {
                 setTimeout(cpu1Play, bubbleDelay);
             } else if (cpu1Score >= 17 && cpu1Score < 22) {
@@ -361,16 +375,6 @@ function cpu1Play() {
                     dealerTalk.innerHTML = "";
                     playerPlay();
                 }, bubbleDelay);
-            } else if (cpu1Score > 21) {
-                setTimeout(function() {
-                    bubble.style.display = "flex";
-                    dealerTalk.innerHTML = `Clint's gone bust`;
-                }, bubbleDelay);
-                setTimeout(function() {
-                    bubble.style.display = "none";
-                    dealerTalk.innerHTML = "";
-                    playerPlay();
-                }, bubbleDelay + 2000);
             }
         } else {
             setTimeout(function() {
@@ -383,18 +387,16 @@ function cpu1Play() {
                 playerPlay();
             }, bubbleDelay + 1000);
         }
-    } else if (cpu1Score > 21) {
+    } else if (cpu1Score == 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
-            dealerTalk.innerHTML = "Clint's gone bust.";
+            dealerTalk.innerHTML = `Clint's got 'imself a 21!`;
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             playerPlay();
-        }, bubbleDelay + 2000);
-    } else if (cpu1Score == 21) {
-        playerPlay();
+        }, bubbleDelay + 1000);
     }
 }
 
@@ -434,7 +436,22 @@ function cpu2Play() {
             setTimeout(function() {
                 dealCpu2();
                 cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
-                checkAces(cpu2Hand, cpu2Score);
+                if (cpu2Score > 21) {
+                    if (checkAces(cpu2Hand)) {
+                        cpu2Score -= 10;
+                        cpu2Play();
+                    } else {
+                        setTimeout(function() {
+                            bubble.style.display = "flex";
+                            dealerTalk.innerHTML = "Mary's gone bust.";
+                        }, bubbleDelay);
+                        setTimeout(function() {
+                            bubble.style.display = "none";
+                            dealerTalk.innerHTML = "";
+                            playerPlay();
+                        }, bubbleDelay + 2000)
+                    }
+                }
             }, 1000);
             if (cpu2Score <= 16) {
                 setTimeout(cpu2Play, bubbleDelay);
@@ -446,16 +463,6 @@ function cpu2Play() {
                     dealerTalk.innerHTML = "";
                     revealDealerCard();
                 }, bubbleDelay);
-            } else if (cpu2Score > 21) {
-                setTimeout(function() {
-                    bubble.style.display = "flex";
-                    dealerTalk.innerHTML = `Mary's gone bust`;
-                }, bubbleDelay);
-                setTimeout(function() {
-                    bubble.style.display = "none";
-                    dealerTalk.innerHTML = "";
-                    revealDealerCard();
-                }, bubbleDelay + 2000);
             }
         } else {
             setTimeout(function() {
@@ -468,18 +475,16 @@ function cpu2Play() {
                 revealDealerCard();
             }, bubbleDelay + 1000);
         }
-    } else if (cpu2Score > 21) {
+    } else if (cpu2Score == 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
-            dealerTalk.innerHTML = "Mary's gone bust.";
+            dealerTalk.innerHTML = `Mary's got 'erself a 21!`;
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             revealDealerCard();
-        }, bubbleDelay + 2000);
-    } else if (cpu2Score == 21) {
-        revealDealerCard();
+        }, bubbleDelay + 1000);
     }
 }
 

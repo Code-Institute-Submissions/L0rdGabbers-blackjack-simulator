@@ -532,12 +532,54 @@ function endRound() {
         dealerCards[i].setAttribute('class', 'dealer-disappear');
     }
 
+    for (let i = 0; i < cpu1Hand.length; i++) {
+        discardPile.push(cpu1Hand[i]);
+    }
+
+    for (let i = 0; i < playerHand.length; i++) {
+        discardPile.push(playerHand[i]);
+    }
+
+    for (let i = 0; i < cpu2Hand.length; i++) {
+        discardPile.push(cpu2Hand[i]);
+    }
+
+    for (let i = 0; i < dealerHand.length; i++) {
+        console.log(dealerHand[i]);
+        discardPile.push(dealerHand[i]);
+        console.log(discardPile);
+        
+    }
+    
+
+
     setTimeout(function() {
         cpu1.innerHTML = "";
         player.innerHTML = "";
         cpu2.innerHTML = "";
         dealer.innerHTML = "";
+        if (document.getElementById("discard-pile").innerHTML == "") {
+            console.log(discardPile[discardPile.length - 1])
+            let img = document.createElement('img');
+            img.src = discardPile[discardPile.length - 1].source;
+            img.setAttribute('id', 'discard')
+            img.setAttribute('class', "card");
+            img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
+            img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
+            dealerDisplay.appendChild(img);
+        } else {
+            document.getElementById("discard-pile").innerHTML = ""
+            let img = document.createElement('img');
+            img.src = discardPile[discardPile.length - 1].source;
+            img.setAttribute('id', 'discard')
+            img.setAttribute('class', "card");
+            img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
+            img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
+            dealerDisplay.appendChild(img);
+        }
     }, 900);
+
+    
 
 
     let img = document.createElement('img');

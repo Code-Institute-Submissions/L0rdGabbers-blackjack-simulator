@@ -145,9 +145,8 @@ function dealCpu1() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu1-hand').appendChild(img);
             cpu1Hand.push(cardImgs[i]);
-            if (cpu1Hand.length > 1) {
-                img.style.top = `${(40 + (5 * (cpu1Hand.length - 1)))}%`
-            }
+            img.style.position = 'relative';
+            img.style.bottom = `${(7.8 * (cpu1Hand.length - 1))}rem`;
             cardImgs.splice(i,1);
         }
     }
@@ -163,9 +162,8 @@ function dealPlayer() {
             img.setAttribute('alt', `${cardImgs[i].card}`)
             document.getElementById('player-hand').appendChild(img);
             playerHand.push(cardImgs[i]);
-            if (playerHand.length > 1) {
-                img.style.left = `${(40 + (5 * (playerHand.length - 1)))}%`
-            }
+            img.style.position = 'relative';
+            img.style.right = `${(7.8*(playerHand.length - 1))}rem`
             cardImgs.splice(i,1);
         }
     }
@@ -181,9 +179,8 @@ function dealCpu2() {
             img.setAttribute('alt', `${cardImgs[i].card}`);
             document.getElementById('cpu2-hand').appendChild(img);
             cpu2Hand.push(cardImgs[i]);
-            if (cpu2Hand.length > 1) {
-                img.style.top = `${(40 + (5 * (cpu2Hand.length - 1)))}%`
-            }
+            img.style.position = 'relative';
+            img.style.bottom = `${(7.8 * (cpu2Hand.length - 1))}rem`;
             cardImgs.splice(i,1);
         }
     }
@@ -200,6 +197,8 @@ function dealDealerUp() {
             img.setAttribute('data-type', `${cardImgs[i].points}` );
             dealerDisplay.appendChild(img);
             dealerHand.push(cardImgs[i]);
+            img.style.position = 'relative';
+            img.style.right = `${(7.8*(dealerHand.length - 1))}rem`
             cardImgs.splice(i,1);
         }
     }
@@ -208,8 +207,9 @@ function dealDealerUp() {
 function dealDealerDown() {
     let img = document.createElement('img');
     img.src = "./assets/images/card-back.png"
-    img.setAttribute('class', 'card')
-    img.style.left = "45%"
+    img.setAttribute('class', 'card');
+    img.style.position = 'relative';
+    img.style.right = "7.8rem"
     dealerDisplay.appendChild(img);
     let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
     for (let i = 0; i < cardImgs.length; i++) { 
@@ -219,7 +219,7 @@ function dealDealerDown() {
             cpu1Score = cpu1Hand[0].points + cpu1Hand[1].points;
             playerScore = playerHand[0].points + playerHand[1].points;
             cpu2Score = cpu2Hand[0].points + cpu2Hand[1].points;
-            dealerScore = 21;
+            dealerScore = dealerHand[0].points + dealerHand[1].points;
             console.log(cpu1Score);
             console.log(playerScore);
             console.log(cpu2Score);
@@ -273,7 +273,7 @@ function testForBlackjack() {
 }
 
 function insurancePhase() {
-    if (dealerHand[0].points >= 2) { 
+    if (dealerHand[0].points >= 10) { 
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "Would you like to buy insurance, play on, or surrender?";
@@ -293,17 +293,23 @@ function insurancePhase() {
 }
 
 function revealIfBlackjack() {
-    console.log("Yes... I am running")
     if (dealerScore < 21) {
-        console.log("Test")
         bubble.style.display = "none";
         dealerTalk.innerHTML = "";
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
         surrender.innerHTML = "";
-        cpu1Play(); 
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "I ain't got Blackjack";
+        }, bubbleDelay)
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            cpu1Play(); 
+        }, bubbleDelay + 2000)
     } else if (dealerScore = 21) {
-        if (playerScore < 21) {
+        if (playerScore < 21 || playerScore > 21) {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             insure.innerHTML = "";
@@ -319,13 +325,23 @@ function revealIfBlackjack() {
                 dealerTalk.innerHTML = "";
                 endRound();
             }, bubbleDelay + 2000);
+        } else if (playerScore == 21) {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "The house has Blackjack, so you're bet is pushed";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                document.getElementById('score').innerHTML = `${(parseFloat(document.getElementById('score').innerHTML) + (betInput)).toFixed(2)}`
+                endRound();
+            }, bubbleDelay + 2000);
         }
     }
 }
 
 function cpu1Play() {
-    console.log("Main run");
-    if (cpu1Blackjack == false && cpu1Score < 21) {
+    if (cpu1Score < 21) {
         let nextMove = shouldHit(cpu1Score);
         if (nextMove === true) {
             setTimeout(function() {
@@ -376,25 +392,31 @@ function cpu1Play() {
             dealerTalk.innerHTML = "";
             playerPlay();
         }, bubbleDelay + 2000);
-    } else if (cpu1Blackjack == true) {
+    } else if (cpu1Score == 21) {
         playerPlay();
     }
 }
 
 function playerPlay() {
-    if (playerBlackjack == false && playerScore < 21) {
+    if (playerScore < 21) {
         for (let i = 0; i < playerCommands.length; i++) {
             playerCommands[i].style.color = "#ffffff";
             playerCommands[i].style.cursor = "pointer";
         }
         playerCommands[0].addEventListener('click', hit)
         playerCommands[1].addEventListener('click', stand)
-    } else if (playerBlackjack === true) {
+    } else if (playerScore == 21) {
         cpu2Play();
     } else if (playerScore > 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "You've gone bust.";
+            for (let i = 0; i < playerCommands.length; i++) {
+                playerCommands[i].style.color  = "#a0a0a0";
+                playerCommands[i].style.cursor = "not-allowed";
+            }
+            playerCommands[0].removeEventListener('click', hit);
+            playerCommands[1].removeEventListener('click', stand);
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
@@ -405,7 +427,7 @@ function playerPlay() {
 }
 
 function cpu2Play() {
-    if (cpu2Blackjack == false && cpu2Score < 21) {
+    if (cpu2Score < 21) {
         let nextMove = shouldHit(cpu2Score);
         if (nextMove === true) {
             setTimeout(function() {
@@ -454,7 +476,7 @@ function cpu2Play() {
             dealerTalk.innerHTML = "";
             revealDealerCard();
         }, bubbleDelay + 2000);
-    } else if (cpu2Blackjack == true) {
+    } else if (cpu2Score == 21) {
         revealDealerCard();
     }
 }
@@ -480,7 +502,8 @@ function revealDealerCard() {
     img.setAttribute('class', "card");
     img.setAttribute('alt', `${dealerHand[1].card}`);
     img.setAttribute('data-type', `${dealerHand[1].points}` );
-    img.style.left = "45%"
+    img.style.position = 'relative';
+    img.style.right = "7.8rem";
     dealerDisplay.appendChild(img);
 }
 

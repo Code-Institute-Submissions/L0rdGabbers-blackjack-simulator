@@ -180,8 +180,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 #player-hand {
     position: fixed;
-    left: 40%;
-    bottom: 30%;
+    left: 42%;
+    bottom: 10%;
 }
 
 #player-commands p:hover {
@@ -190,7 +190,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 #dealer-hand {
     position: fixed;
-    left: 40%;
+    left: 42%;
     top: 10%;
 }
 

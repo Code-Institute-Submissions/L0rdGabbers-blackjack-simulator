@@ -252,7 +252,7 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotate(-90deg);
     margin: -1.8rem;
     max-height: 14rem;
-    animation-name: v-disappear;
+    animation-name: h-disappear;
     animation-duration: 1s;
     background: transparent;
     position: fixed;
@@ -264,12 +264,32 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotate(-90deg);
     margin: -1.8rem;
     max-height: 14rem;
-    animation-name: v-disappear;
+    animation-name: h-disappear;
     animation-duration: 1s;
     background: transparent;
     position: fixed;
     top: 40%;
     left: 17.25%;
+}
+
+.player-disappear {
+    max-height: 14rem;
+    animation-name: v-disappear;
+    animation-duration: 1s;
+    background: transparent;
+    position: fixed;
+    left: 40%;
+    bottom: 6%;
+}
+
+.dealer-disappear {
+    max-height: 14rem;
+    animation-name: v-disappear;
+    animation-duration: 1s;
+    background: transparent;
+    position: fixed;
+    left: 40%;
+    top: 10%;
 }
 
 @keyframes verticaldeal {

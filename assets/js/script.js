@@ -507,18 +507,38 @@ function stand() {
 }
 
 function endRound() {
-    let cpu1Cards = document.getElementById('cpu1-hand').children;
-    let playerCards = document.getElementById('player-hand').children;
-    let cpu2Cards = document.getElementById('cpu2-hand').children;
-    let dealerCards = document.getElementById('dealer-hand').children;
+    let cpu1 = document.getElementById('cpu1-hand')
+    let cpu1Cards = cpu1.children;
+    let player = document.getElementById('player-hand')
+    let playerCards = player.children;
+    let cpu2 = document.getElementById('cpu2-hand')
+    let cpu2Cards = cpu2.children;
+    let dealer = document.getElementById('dealer-hand')
+    let dealerCards = dealer.children;
 
     for (let i = 0; i < cpu1Cards.length; i++) {
         cpu1Cards[i].setAttribute('class', 'cpu1-disappear');
     }
 
+    for (let i = 0; i < playerCards.length; i++) {
+        playerCards[i].setAttribute('class', 'player-disappear');
+    }
+
     for (let i = 0; i < cpu2Cards.length; i++) {
         cpu2Cards[i].setAttribute('class', 'cpu2-disappear');
     }
+
+    for (let i = 0; i < dealerCards.length; i++) {
+        dealerCards[i].setAttribute('class', 'dealer-disappear');
+    }
+
+    setTimeout(function() {
+        cpu1.innerHTML = "";
+        player.innerHTML = "";
+        cpu2.innerHTML = "";
+        dealer.innerHTML = "";
+    }, 900);
+
 
     let img = document.createElement('img');
     img.src = "./assets/images/card-back.png"

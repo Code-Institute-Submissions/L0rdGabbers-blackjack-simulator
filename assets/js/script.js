@@ -113,27 +113,20 @@ function betStage() {
 }
 
 function beginRound() {
-    if (cardImgs.length >= 8) { 
-        for (let i = 0; i < 8; i++) {
-            if (i === 0 || i === 4) {
-                dealCpu1();
-            } else if (i === 1 || i === 5) {
-                dealPlayer();
-            } else if (i === 2 || i === 6) {
-                dealCpu2();
-            } else if (i === 3) {
-                dealDealerUp();
-            } else if (i == 7) {
-                dealDealerDown();
-            }
-        }
-    testForBlackjack();
-    } else {
-        for (const obj of discardPile) {
-            cardImgs.push(copy(obj));
-            discardPile.splice(obj, 1);
+    for (let i = 0; i < 8; i++) {
+        if (i === 0 || i === 4) {
+            dealCpu1();
+        } else if (i === 1 || i === 5) {
+            dealPlayer();
+        } else if (i === 2 || i === 6) {
+            dealCpu2();
+        } else if (i === 3) {
+            dealDealerUp();
+        } else if (i == 7) {
+            dealDealerDown();
         }
     }
+    testForBlackjack();
 }
 
 function dealCpu1() {
@@ -743,25 +736,27 @@ function endRound() {
         player.innerHTML = "";
         cpu2.innerHTML = "";
         dealer.innerHTML = "";
-        if (discardedPile.innerHTML == "") {
-            let img = document.createElement('img');
-            img.src = discardPile[discardPile.length - 1].source;
-            img.setAttribute('id', 'discard')
-            img.setAttribute('class', "card");
-            img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
-            img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
-            discardedPile.appendChild(img);
-        } else {
-            document.getElementById("discard-pile").innerHTML = ""
-            let img = document.createElement('img');
-            img.src = discardPile[discardPile.length - 1].source;
-            img.setAttribute('id', 'discard')
-            img.setAttribute('class', "card");
-            img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
-            img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
-            discardedPile.appendChild(img);
-        }
+        document.getElementById("discard-pile").innerHTML = ""
+        let img = document.createElement('img');
+        img.src = discardPile[discardPile.length - 1].source;
+        img.setAttribute('id', 'discard')
+        img.setAttribute('class', "card");
+        img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
+        img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
+        discardedPile.appendChild(img);
     }, 900);
+    
+    if (cardImgs.length < 8) {
+        for (let i = 0; i < discardPile.length; i++) {
+            cardImgs.push(discardPile[i]);
+            discardPile.splice(i,1);
+            document.getElementById("discard-pile").setAttribute('animation-name', 'v-disappear')
+            document.getElementById("discard-pile").setAttribute('animation-duration', '1s')
+            setTimeout(function() {
+                document.getElementById("discard-pile").innerHTML = ""
+            }, 900)
+        }
+    }
 
 
 

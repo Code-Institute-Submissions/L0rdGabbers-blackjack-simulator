@@ -60,56 +60,53 @@ setTimeout(function() {
     bubble.style.display = "flex";
 }, 1000)
 dealerTalk.innerHTML = "Howdy Pardner, siddown and place your bet at the bottom of the table!";
-setTimeout(function() {
-    bubble.style.display = "none";
-    betInput.addEventListener('keydown', function collectBets(event) {
-        if (event.key === "Enter") {
-            if (this.valueAsNumber === 0) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.valueAsNumber < 0) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "I ain't giving you money.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "You ain't got that kind of money.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.value == "") {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else {
+betInput.addEventListener('keydown', function collectBets(event) {
+    if (event.key === "Enter") {
+        if (this.valueAsNumber === 0) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
-                let subtractBet = (this.valueAsNumber);
-                let oldScore = parseFloat(document.getElementById('score').innerHTML);
-                let newScore = oldScore - subtractBet;
-                let betInput = document.getElementById('bet')
-                winnings.innerHTML = newScore;
-                betInput.setAttribute("max", newScore);
-                betInput.removeEventListener('keydown', collectBets);
-                betInput.value = '';
-                playerBet.push(subtractBet);
+            })
+        } else if (this.valueAsNumber < 0) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "I ain't giving you money.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
-                closeBubble.innerHTML = "";
-                beginRound();
-            }
+            })
+        } else if (this.valueAsNumber > parseFloat(score.innerHTML)) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "You ain't got that kind of money.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.value === "") {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.value > 0 && this.value <parseFloat(score.innerHTML)) {
+            bubble.style.display = "none";
+            let subtractBet = (this.valueAsNumber);
+            let oldScore = parseFloat(score.innerHTML);
+            let newScore = oldScore - subtractBet;
+            let betInput = document.getElementById('bet')
+            winnings.innerHTML = newScore.toFixed(2);
+            betInput.setAttribute("max", newScore);
+            betInput.removeEventListener('keydown', collectBets);
+            betInput.value = '';
+            playerBet.push(subtractBet);
+            bubble.style.display = "none";
+            closeBubble.innerHTML = "";
+            beginRound();
         }
-    })
-}, 4500)
+    }
+})
 
 function beginRound() {
     if (cardImgs.length >= 8) { 
@@ -448,7 +445,7 @@ function cpu2Play() {
                         setTimeout(function() {
                             bubble.style.display = "none";
                             dealerTalk.innerHTML = "";
-                            playerPlay();
+                            revealDealerCard();
                         }, bubbleDelay + 2000)
                     }
                 }
@@ -512,6 +509,66 @@ function revealDealerCard() {
     img.style.position = 'relative';
     img.style.right = "7.8rem";
     dealerDisplay.appendChild(img);
+    dealerPlay();
+}
+
+function dealerPlay() {
+    if (dealerScore < 21) {
+        let nextMove = shouldHit(dealerScore);
+        if (nextMove === true) {
+            setTimeout(function() {
+                dealDealerUp();
+                dealerScore = dealerScore + dealerHand[dealerHand.length -1].points;
+                if (dealerScore > 21) {
+                    if (checkAces(dealerHand)) {
+                        dealerScore -= 10;
+                        dealerPlay();
+                    } else {
+                        setTimeout(function() {
+                            bubble.style.display = "flex";
+                            dealerTalk.innerHTML = "I've gone bust.";
+                        }, bubbleDelay);
+                        setTimeout(function() {
+                            bubble.style.display = "none";
+                            dealerTalk.innerHTML = "";
+                            determineWinner();
+                        }, bubbleDelay + 2000)
+                    }
+                }
+            }, 1000);
+            if (dealerScore <= 16) {
+                setTimeout(dealerPlay, bubbleDelay);
+            } else if (dealerScore >= 17 && dealerScore < 22) {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = `I'm standing on ${dealerScore}.`;
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = "";
+                    determineWinner();
+                }, bubbleDelay);
+            }
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = `I'm standing on ${dealerScore}.`;
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                determineWinner();
+            }, bubbleDelay + 1000);
+        }
+    } else if (dealerScore == 21) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `Good ol' 21!`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            determineWinner();
+        }, bubbleDelay + 1000);
+    }
 }
 
 function hit() {
@@ -564,10 +621,45 @@ function checkAces(checkHand) {
     if (evalHand.length > 0) {
         evalHand[0].points = 1;
         evalHand[0].check = 1;
-        console.log(evalHand[0]);
         return true;
     } else {
         return false;
+    }
+}
+
+function determineWinner() {
+    if (dealerScore == playerScore && dealerScore < 22) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `Well, looks like your bets been pushed.`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            score.innerHTML = (parseFloat(score.innerHTML) + playerBet[0])
+            endRound();
+        }, bubbleDelay + 1000);
+    } else if ((dealerScore > playerScore && dealerScore < 22) || (dealerScore < 22 && playerScore >= 22)) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `Better luck next time, Pal.`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            endRound();
+        }, bubbleDelay + 1000);
+    } else if ((playerScore > dealerScore && playerScore < 22) || (playerScore < 22 && dealerScore >= 22)) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `Nicely done, Pardner.`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            score.innerHTML = (parseFloat(score.innerHTML) + (2 * (playerBet[0])))
+            endRound();
+        }, bubbleDelay + 1000);
     }
 }
 
@@ -610,11 +702,10 @@ function endRound() {
     }
 
     for (let i = 0; i < dealerHand.length; i++) {
-        console.log(dealerHand[i]);
-        discardPile.push(dealerHand[i]);
-        console.log(discardPile);
-        
+        discardPile.push(dealerHand[i]);        
     }
+
+    resetAces(discardPile)
     
 
 
@@ -624,7 +715,6 @@ function endRound() {
         cpu2.innerHTML = "";
         dealer.innerHTML = "";
         if (document.getElementById("discard-pile").innerHTML == "") {
-            console.log(discardPile[discardPile.length - 1])
             let img = document.createElement('img');
             img.src = discardPile[discardPile.length - 1].source;
             img.setAttribute('id', 'discard')
@@ -644,7 +734,6 @@ function endRound() {
         }
     }, 900);
 
-    
 
 
     let img = document.createElement('img');
@@ -666,11 +755,127 @@ function endRound() {
 
     setTimeout(function() {
         bubble.style.display = "flex";
-        dealerTalk.innerHTML = "Fancy play another hand?";
-        closeBubble.innerHTML = "Make another bet at the bottom of the table."
+        dealerTalk.innerHTML = "Fancy play another hand? <br> Make a bet at the bottom of the table.";
     }, 3000)
+
+    if (parseInt(score.innerHTML) != 0) {
+        betInput.addEventListener('keydown', function collectBets(event) {
+            if (event.key === "Enter") {
+                if (this.valueAsNumber === 0) {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+                    closeBubble.innerHTML = "OK";
+                    bubble.children[1].addEventListener('click', function() {
+                        bubble.style.display = "none";
+                    })
+                } else if (this.valueAsNumber < 0) {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = "I ain't giving you money.";
+                    closeBubble.innerHTML = "OK";
+                    bubble.children[1].addEventListener('click', function() {
+                        bubble.style.display = "none";
+                    })
+                } else if (this.valueAsNumber > parseFloat(score.innerHTML)) {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = "You ain't got that kind of money.";
+                    closeBubble.innerHTML = "OK";
+                    bubble.children[1].addEventListener('click', function() {
+                        bubble.style.display = "none";
+                    })
+                } else if (this.value === "") {
+                    bubble.style.display = "flex";
+                    dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+                    closeBubble.innerHTML = "OK";
+                    bubble.children[1].addEventListener('click', function() {
+                        bubble.style.display = "none";
+                    })
+                } else if (this.value > 0 && this.value <parseFloat(score.innerHTML)) {
+                    bubble.style.display = "none";
+                    let subtractBet = (this.valueAsNumber);
+                    let oldScore = parseFloat(score.innerHTML);
+                    let newScore = oldScore - subtractBet;
+                    let betInput = document.getElementById('bet')
+                    winnings.innerHTML = newScore.toFixed(2);
+                    betInput.setAttribute("max", newScore);
+                    betInput.removeEventListener('keydown', collectBets);
+                    betInput.value = '';
+                    playerBet.push(subtractBet);
+                    bubble.style.display = "none";
+                    closeBubble.innerHTML = "";
+                    beginRound();
+                }
+            }
+        })
+    } else if (score == 0) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "You're all out of cash.";
+        closeBubble.innerHTML = "Click here to buy in again.";
+        closeBubble.addEventListener('click', function() {
+            score.innerHTML = "100"
+            dealerTalk.innerHTML = "Alright, to begin play, make another bet at the bottom of the table.";
+            closeBubble.innerHTML = "";
+            betInput.addEventListener('keydown', function collectBets(event) {
+                if (event.key === "Enter") {
+                    if (this.valueAsNumber === 0) {
+                        bubble.style.display = "flex";
+                        dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+                        closeBubble.innerHTML = "OK";
+                        bubble.children[1].addEventListener('click', function() {
+                            bubble.style.display = "none";
+                        })
+                    } else if (this.valueAsNumber < 0) {
+                        bubble.style.display = "flex";
+                        dealerTalk.innerHTML = "I ain't giving you money.";
+                        closeBubble.innerHTML = "OK";
+                        bubble.children[1].addEventListener('click', function() {
+                            bubble.style.display = "none";
+                        })
+                    } else if (this.valueAsNumber > parseFloat(document.getElementById('score').innerHTML)) {
+                        bubble.style.display = "flex";
+                        dealerTalk.innerHTML = "You ain't got that kind of money.";
+                        closeBubble.innerHTML = "OK";
+                        bubble.children[1].addEventListener('click', function() {
+                            bubble.style.display = "none";
+                        })
+                    } else if (this.value == "") {
+                        bubble.style.display = "flex";
+                        dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+                        closeBubble.innerHTML = "OK";
+                        bubble.children[1].addEventListener('click', function() {
+                            bubble.style.display = "none";
+                        })
+                    } else {
+                        bubble.style.display = "none";
+                        let subtractBet = (this.valueAsNumber);
+                        let oldScore = parseFloat(document.getElementById('score').innerHTML);
+                        let newScore = oldScore - subtractBet;
+                        let betInput = document.getElementById('bet')
+                        winnings.innerHTML = newScore.toFixed(2);
+                        betInput.setAttribute("max", newScore);
+                        betInput.removeEventListener('keydown', collectBets);
+                        betInput.value = '';
+                        playerBet.push(subtractBet);
+                        bubble.style.display = "none";
+                        closeBubble.innerHTML = "";
+                        beginRound();
+                    }
+                }
+            })
+        })
+    }
 }
 
+function resetAces(checkHand) {
+    let evalHand = checkHand.filter((hand) => {
+        return hand.check == 1;
+    })
+    if (evalHand.length > 0) {
+        for (let i = 0; i < evalHand.length; i++) {
+            evalHand[i].points = 11;
+            evalHand[i].check = 0;
+        }
+    } 
+}
 
 function doubleDown() {
 

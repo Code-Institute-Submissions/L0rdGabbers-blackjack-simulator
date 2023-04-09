@@ -113,17 +113,6 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: right;
 }
 
-
-/*Assigns space for discard pile*/
-.top-left {
-    position: fixed;
-    left: 10rem; top: 6rem;
-    width: 16rem;
-    height: 13rem;
-    padding: 5px;
-    text-align: right;
-}
-
 /*Assigns space for draw pile*/
 .top-right {
     position: fixed;

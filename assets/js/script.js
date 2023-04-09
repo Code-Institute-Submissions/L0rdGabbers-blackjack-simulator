@@ -736,14 +736,6 @@ function endRound() {
         player.innerHTML = "";
         cpu2.innerHTML = "";
         dealer.innerHTML = "";
-        document.getElementById("discard-pile").innerHTML = ""
-        let img = document.createElement('img');
-        img.src = discardPile[discardPile.length - 1].source;
-        img.setAttribute('id', 'discard')
-        img.setAttribute('class', "card");
-        img.setAttribute('alt', `${discardPile[discardPile.length - 1].card}`);
-        img.setAttribute('data-type', `${discardPile[discardPile.length - 1].points}` );
-        discardedPile.appendChild(img);
     }, 900);
     
     if (cardImgs.length < 8) {
@@ -779,9 +771,9 @@ function endRound() {
     setTimeout(function() {
         bubble.style.display = "flex";
         dealerTalk.innerHTML = "Fancy playin' another hand? <br> Make a bet at the bottom left of the table.";
-        if (parseFloat(winnings.innerHTML) > 0) {
+        if (playerWinnings > 0) {
             betStage();
-        } else if (parseFloat(winnings.innerHTML) == 0) {
+        } else if (playerWinnings == 0) {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "You're all out of cash.";
             closeBubble.innerHTML = "Click here to buy in again.";

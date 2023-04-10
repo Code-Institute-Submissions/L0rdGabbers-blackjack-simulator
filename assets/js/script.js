@@ -242,8 +242,7 @@ function dealDealerUp() {
 function dealDealerDown() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealDealerDown
-        ();
+        dealDealerDown();
     } else {
         let img = document.createElement('img');
         img.src = "./assets/images/card-back.png"
@@ -273,8 +272,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 2500
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     if (playerScore == 21) {
         setTimeout(function() {
@@ -283,8 +282,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 2500
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     if (cpu2Score == 21) {
         setTimeout(function() {
@@ -293,8 +292,8 @@ function testForBlackjack() {
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 2000));
-        bubbleDelay += 2500
+        }, (bubbleDelay + 3000));
+        bubbleDelay += 3500
     }
     insurancePhase();
 }
@@ -369,7 +368,22 @@ function revealIfBlackjack() {
 }
 
 function cpu1Play() {
-    if (cpu1Score < 21) {
+    if (cpu1Score > 21) {
+        if (checkAces(cpu1Hand)) {
+            cpu1Score -= 10;
+            setTimeout(cpu1Play, bubbleDelay + 2000);
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "Clint's gone bust.";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                dealPlayer();
+            }, bubbleDelay + 2000)
+        }
+    } else if (cpu1Score < 21) {
         let nextMove = shouldHit(cpu1Score);
         if (nextMove === true) {
             setTimeout(function() {
@@ -378,7 +392,7 @@ function cpu1Play() {
                 if (cpu1Score > 21) {
                     if (checkAces(cpu1Hand)) {
                         cpu1Score -= 10;
-                        setTimeout(cpu1Play, bubbleDelay);
+                        setTimeout(cpu1Play, bubbleDelay + 2000);
                     } else {
                         setTimeout(function() {
                             bubble.style.display = "flex";
@@ -437,49 +451,58 @@ function playerPlay() {
         playerCommands[0].addEventListener('click', hit)
         playerCommands[1].addEventListener('click', stand)
     } else if (playerScore == 21) {
-        cpu2Play();
-    } else if (playerScore > 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
-            dealerTalk.innerHTML = "You've gone bust.";
-            for (let i = 0; i < playerCommands.length; i++) {
-                playerCommands[i].style.color  = "#a0a0a0";
-                playerCommands[i].style.cursor = "not-allowed";
-            }
-            playerCommands[0].removeEventListener('click', hit);
-            playerCommands[1].removeEventListener('click', stand);
+            dealerTalk.innerHTML = "Good ol' 21.";
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             cpu2Play();
         }, bubbleDelay + 2000);
+        cpu2Play();
+    } else if (playerScore > 21) {
+        if (checkAces(playerHand)) {
+            playerScore -= 10;
+            setTimeout(playerPlay, bubbleDelay + 2000);
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "You've gone bust.";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                playerCommands[0].removeEventListener('click', hit);
+                playerCommands[1].removeEventListener('click', stand);
+                dealCpu2();
+            }, bubbleDelay + 2000)
+        }
     }
 }
 
 function cpu2Play() {
-    if (cpu2Score < 21) {
+    if (cpu2Score > 21) {
+        if (checkAces(cpu2Hand)) {
+            cpu2Score -= 10;
+            setTimeout(cpu2Play, bubbleDelay + 2000);
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "Mary's gone bust.";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                revealDealerCard();
+            }, bubbleDelay + 2000)
+        }
+    } else if (cpu2Score < 21) {
         let nextMove = shouldHit(cpu2Score);
         if (nextMove === true) {
             setTimeout(function() {
                 dealCpu2();
                 cpu2Score = cpu2Score + cpu2Hand[cpu2Hand.length -1].points;
-                if (cpu2Score > 21) {
-                    if (checkAces(cpu2Hand)) {
-                        cpu2Score -= 10;
-                        setTimeout(cpu2Play, bubbleDelay);
-                    } else {
-                        setTimeout(function() {
-                            bubble.style.display = "flex";
-                            dealerTalk.innerHTML = "Mary's gone bust.";
-                        }, bubbleDelay);
-                        setTimeout(function() {
-                            bubble.style.display = "none";
-                            dealerTalk.innerHTML = "";
-                            revealDealerCard();
-                        }, bubbleDelay + 2000)
-                    }
-                }
             }, 1000);
             if (cpu2Score <= 16) {
                 setTimeout(cpu2Play, bubbleDelay);

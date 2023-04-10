@@ -113,18 +113,21 @@ function shuffleCards() {
         for (let i = 0; i < discardPile.length; i++) {
             cardImgs.push(discardPile[i]);
             discardPile.splice(i,1);
+            if (i == (discardPile.length -1)) {
+                setTimeout(function() {
+                    bubble.style.display = "none";
+                    dealerTalk.innerHTML = ""; 
+                }, bubbleDelay + 2000)
+                return;
+            }
         }
     }, bubbleDelay)
-    setTimeout(function() {
-        bubble.style.display = "none";
-        dealerTalk.innerHTML = ""; 
-    }, bubbleDelay + 2000)
 }
 
 function beginRound() {
     if (cardImgs.length < 8) {
         shuffleCards();
-        beginRound();
+        setTimeout(beginRound, bubbleDelay + 2000)
     } else {
         for (let i = 0; i < 8; i++) {
             if (i === 0 || i === 4) {
@@ -146,7 +149,7 @@ function beginRound() {
 function dealCpu1() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealCpu1();
+        setTimeout(dealCpu1, bubbleDelay + 1000);
     } else {
         let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
         for (let i = 0; i < cardImgs.length; i++) { 
@@ -168,7 +171,7 @@ function dealCpu1() {
 function dealPlayer() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealPlayer();
+        setTimeout(dealPlayer, bubbleDelay + 3000);
     } else {
         let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
         for (let i = 0; i < cardImgs.length; i++) { 
@@ -190,7 +193,7 @@ function dealPlayer() {
 function dealCpu2() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealCpu2();
+        setTimeout(dealCpu2, bubbleDelay + 3000);
     } else {
         let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
         for (let i = 0; i < cardImgs.length; i++) { 
@@ -212,7 +215,7 @@ function dealCpu2() {
 function dealDealerUp() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealDealerUp();
+        setTimeout(dealDealerUp, bubbleDelay + 3000);
     } else {
         let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
         for (let i = 0; i < cardImgs.length; i++) { 
@@ -235,7 +238,7 @@ function dealDealerUp() {
 function dealDealerDown() {
     if (cardImgs.length == 0) {
         shuffleCards();
-        dealDealerDown();
+        setTimeout(dealDealerDown, bubbleDelay + 3000);
     } else {
         let img = document.createElement('img');
         img.src = "./assets/images/card-back.png"
@@ -288,7 +291,8 @@ function testForBlackjack() {
         }, (bubbleDelay + 3000));
         bubbleDelay += 3500
     }
-    insurancePhase();
+    setTimeout(insurancePhase, bubbleDelay)
+    bubbleDelay = 2500;
 }
 
 function insurancePhase() {
@@ -307,11 +311,8 @@ function insurancePhase() {
             })
         }, bubbleDelay);
     } else if (dealerHand[0].points < 10 || playerScore == 21) {
-        insure.innerHTML = "";
-        closeBubble.innerHTML = "";
-        setTimeout(cpu1Play, 2000); 
+        cpu1Play();
     }
-    bubbleDelay = 2500;
 }
 
 function revealIfBlackjack() {
@@ -455,7 +456,7 @@ function cpu1Play() {
 }
 
 function playerPlay() {
-    if (playerScore < 21) {
+    if (playerScore < 21 && playerHand.length == 2) {
         for (let i = 0; i < playerCommands.length; i++) {
             playerCommands[i].style.color = "#ffffff";
             playerCommands[i].style.cursor = "pointer";
@@ -463,6 +464,14 @@ function playerPlay() {
         playerCommands[0].addEventListener('click', hit)
         playerCommands[1].addEventListener('click', stand)
         playerCommands[2].addEventListener('click', doubleDown)
+    }
+    else if (playerScore < 21 && playerHand.length > 2) {
+        for (let i = 0; i < (playerCommands.length - 1); i++) {
+            playerCommands[i].style.color = "#ffffff";
+            playerCommands[i].style.cursor = "pointer";
+        }
+        playerCommands[0].addEventListener('click', hit)
+        playerCommands[1].addEventListener('click', stand)
     } else if (playerScore == 21 && playerHand.length == 2) {
         cpu2Play();
     } else if (playerScore == 21) {
@@ -640,13 +649,12 @@ function hit() {
     }
     playerScore = playerScore + playerHand[playerHand.length -1].points;
     setTimeout(function() {
-        for (let i = 0; i < playerCommands.length; i++) {
+        for (let i = 0; i < (playerCommands.length - 1); i++) {
             playerCommands[i].style.color = "#ffffff";
             playerCommands[i].style.cursor = "pointer";
         }
         playerCommands[0].addEventListener('click', hit)
-        playerCommands[1].addEventListener('click', stand)
-        playerCommands[2].addEventListener('click', doubleDown)}, bubbleDelay)
+        playerCommands[1].addEventListener('click', stand)}, bubbleDelay)
     if (playerScore > 21) {
         if (checkAces(playerHand)) {
             playerScore -= 10;
@@ -729,7 +737,7 @@ function doubleDown() {
     } else {
         setTimeout(function() {
             bubble.style.display = "flex";
-            dealerTalk.innerHTML = `You've doubled down on ${playerScore}.`;
+            dealerTalk.innerHTML = `Sorry, Pardner, you doubled down and went bust.`;
             setTimeout(function() {
                 bubble.style.display = "none";
                 dealerTalk.innerHTML = "";
@@ -899,7 +907,7 @@ function endRound() {
                 betStage();
             })
         }
-    })
+    }, bubbleDelay)
 }  
 
 function resetAces(checkHand) {

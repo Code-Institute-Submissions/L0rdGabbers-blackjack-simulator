@@ -41,20 +41,19 @@ h1 {
 }
 
 p {
-    font-size: 2.2rem;
+    font-size: 2.5vw;
     color: #FFF;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    font-stretch: condensed;
     background: none;
+    margin: .75rem 0 .75rem 0;
 }
 
 span {
     font-size: 2.2rem;
     color: #FFF;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
-    font-stretch: condensed;
     background: none;
 }
 
@@ -62,7 +61,7 @@ span {
 label {
     font-size: 2.2rem;
     color: #FFF;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-stretch: condensed;
     background: none;
@@ -73,7 +72,7 @@ input {
     color: #FFF;
     font-size: 2.2rem;
     color: #FFF;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
     font-stretch: condensed;
     padding-left: .2rem;
@@ -97,7 +96,7 @@ input[type=number]::-webkit-outer-spin-button {
 /*Assigns space for player's score*/
 .bottom-left {
     position: fixed;
-    left: 3rem; bottom: 4rem;
+    left: 3rem; bottom: 2rem;
     width: 16rem;
     height: 10rem;
     padding: 5px;
@@ -106,7 +105,7 @@ input[type=number]::-webkit-outer-spin-button {
 /*Assigns space for player's controls*/
 .bottom-right {
     position: fixed;
-    right: 3rem; bottom: 10rem;
+    right: 3rem; bottom: 2rem;
     width: 16rem;
     height: 13rem;
     padding: 5px;

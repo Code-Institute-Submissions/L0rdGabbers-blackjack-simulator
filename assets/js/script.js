@@ -112,53 +112,84 @@ function betStage() {
     })
 }
 
-function beginRound() {
-    for (let i = 0; i < 8; i++) {
-        if (i === 0 || i === 4) {
-            dealCpu1();
-        } else if (i === 1 || i === 5) {
-            dealPlayer();
-        } else if (i === 2 || i === 6) {
-            dealCpu2();
-        } else if (i === 3) {
-            dealDealerUp();
-        } else if (i == 7) {
-            dealDealerDown();
-        }
+function shuffleCards() {
+    setTimeout(function() {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "I've gotta shuffle the cards real quick";
+    }, bubbleDelay)
+    setTimeout(function() {
+        bubble.style.display = "none";
+        dealerTalk.innerHTML = "";
+        cpu1Play(); 
+    }, bubbleDelay + 2000)
+    for (let i = 0; i < discardPile.length; i++) {
+        cardImgs.push(discardPile[i]);
+        discardPile.splice(i,1);
     }
-    testForBlackjack();
+}
+
+function beginRound() {
+    if (cardImgs.length < 8) {
+        shuffleCards();
+        beginRound();
+    } else {
+        for (let i = 0; i < 8; i++) {
+            if (i === 0 || i === 4) {
+                dealCpu1();
+            } else if (i === 1 || i === 5) {
+                dealPlayer();
+            } else if (i === 2 || i === 6) {
+                dealCpu2();
+            } else if (i === 3) {
+                dealDealerUp();
+            } else if (i == 7) {
+                dealDealerDown();
+            }
+        }
+        testForBlackjack();
+    }
 }
 
 function dealCpu1() {
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) { 
-        if (drawCardNumber == i) {
-            let img = document.createElement('img');
-            img.src = cardImgs[i].source;
-            img.setAttribute('class', "cpu-card");
-            img.setAttribute('alt', `${cardImgs[i].card}`);
-            document.getElementById('cpu1-hand').appendChild(img);
-            cpu1Hand.push(cardImgs[i]);
-            img.style.position = 'relative';
-            img.style.bottom = `${(7.8 * (cpu1Hand.length - 1))}rem`;
-            cardImgs.splice(i,1);
+    if (cardImgs.length == 0) {
+        shuffleCards();
+        dealCpu1();
+    } else {
+        let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+        for (let i = 0; i < cardImgs.length; i++) { 
+            if (drawCardNumber == i) {
+                let img = document.createElement('img');
+                img.src = cardImgs[i].source;
+                img.setAttribute('class', "cpu-card");
+                img.setAttribute('alt', `${cardImgs[i].card}`);
+                document.getElementById('cpu1-hand').appendChild(img);
+                cpu1Hand.push(cardImgs[i]);
+                img.style.position = 'relative';
+                img.style.bottom = `${(7.8 * (cpu1Hand.length - 1))}rem`;
+                cardImgs.splice(i,1);
+            }
         }
     }
 }
 
 function dealPlayer() {
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) { 
-        if (drawCardNumber == i) {
-            let img = document.createElement('img');
-            img.src = cardImgs[i].source;
-            img.setAttribute('class', "card");
-            img.setAttribute('alt', `${cardImgs[i].card}`)
-            document.getElementById('player-hand').appendChild(img);
-            playerHand.push(cardImgs[i]);
-            img.style.position = 'relative';
-            img.style.right = `${(7.8*(playerHand.length - 1))}rem`
-            cardImgs.splice(i,1);
+    if (cardImgs.length == 0) {
+        shuffleCards();
+        dealPlayer();
+    } else {
+        let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+        for (let i = 0; i < cardImgs.length; i++) { 
+            if (drawCardNumber == i) {
+                let img = document.createElement('img');
+                img.src = cardImgs[i].source;
+                img.setAttribute('class', "card");
+                img.setAttribute('alt', `${cardImgs[i].card}`)
+                document.getElementById('player-hand').appendChild(img);
+                playerHand.push(cardImgs[i]);
+                img.style.position = 'relative';
+                img.style.right = `${(7.8*(playerHand.length - 1))}rem`
+                cardImgs.splice(i,1);
+            }
         }
     }
 }
@@ -735,11 +766,6 @@ function endRound() {
         for (let i = 0; i < discardPile.length; i++) {
             cardImgs.push(discardPile[i]);
             discardPile.splice(i,1);
-            document.getElementById("discard-pile").setAttribute('animation-name', 'v-disappear')
-            document.getElementById("discard-pile").setAttribute('animation-duration', '1s')
-            setTimeout(function() {
-                document.getElementById("discard-pile").innerHTML = ""
-            }, 900)
         }
     }
 

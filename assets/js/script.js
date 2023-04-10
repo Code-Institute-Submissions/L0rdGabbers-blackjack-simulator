@@ -214,10 +214,6 @@ function dealDealerDown() {
             playerScore = playerHand[0].points + playerHand[1].points;
             cpu2Score = cpu2Hand[0].points + cpu2Hand[1].points;
             dealerScore = dealerHand[0].points + dealerHand[1].points;
-            console.log(cpu1Score);
-            console.log(playerScore);
-            console.log(cpu2Score);
-            console.log(dealerScore);
         }
     }
 }
@@ -235,14 +231,13 @@ function testForBlackjack() {
     }
     if (playerScore == 21) {
         playerWinnings = (playerWinnings + (1.5 * playerBet))
-        winnings.innerHTML = playerWinnings
         setTimeout(function() {
             bubble.style.display = "flex";
             document.getElementById('bubble-content').children[0].innerHTML = "You have Blackjack, congratulations!";
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-            document.getElementById('score').innerHTML = newScore;
+            winnings.innerHTML = playerWinnings;
         }, (bubbleDelay + 3000));
         bubbleDelay += 3500
     }
@@ -350,7 +345,7 @@ function cpu1Play() {
                         }, bubbleDelay + 2000)
                     }
                 }
-            }, 1000);
+            }, 2000);
             if (cpu1Score <= 16) {
                 setTimeout(cpu1Play, bubbleDelay);
             } else if (cpu1Score >= 17 && cpu1Score < 22) {
@@ -503,51 +498,39 @@ function revealDealerCard() {
 }
 
 function dealerPlay() {
-    if (dealerScore < 21) {
-        let nextMove = shouldHit(dealerScore);
-        if (nextMove === true) {
-            setTimeout(function() {
-                dealDealerUp();
-                dealerScore = dealerScore + dealerHand[dealerHand.length -1].points;
-                if (dealerScore > 21) {
-                    if (checkAces(dealerHand)) {
-                        dealerScore -= 10;
-                        dealerPlay();
-                    } else {
-                        setTimeout(function() {
-                            bubble.style.display = "flex";
-                            dealerTalk.innerHTML = "I've gone bust.";
-                        }, bubbleDelay);
-                        setTimeout(function() {
-                            bubble.style.display = "none";
-                            dealerTalk.innerHTML = "";
-                            determineWinner();
-                        }, bubbleDelay + 2000)
-                    }
+    if (dealerScore < 17) {
+        setTimeout(function() {
+            dealDealerUp();
+            dealerScore = dealerScore + dealerHand[dealerHand.length -1].points;
+            if (dealerScore > 21) {
+                if (checkAces(dealerHand)) {
+                    dealerScore -= 10;
+                    dealerPlay();
+                } else {
+                    setTimeout(function() {
+                        bubble.style.display = "flex";
+                        dealerTalk.innerHTML = "I've gone bust.";
+                    }, bubbleDelay);
+                    setTimeout(function() {
+                        bubble.style.display = "none";
+                        dealerTalk.innerHTML = "";
+                        determineWinner();
+                    }, bubbleDelay + 2000)
                 }
-            }, 1000);
-            if (dealerScore <= 16) {
-                setTimeout(dealerPlay, bubbleDelay);
-            } else if (dealerScore >= 17 && dealerScore < 22) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = `I'm standing on ${dealerScore}.`;
-                setTimeout(function() {
-                    bubble.style.display = "none";
-                    dealerTalk.innerHTML = "";
-                    determineWinner();
-                }, bubbleDelay);
+            } else if (dealerScore <= 21) {
+                dealerPlay();
             }
-        } else {
-            setTimeout(function() {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = `I'm standing on ${dealerScore}.`;
-            }, bubbleDelay);
-            setTimeout(function() {
-                bubble.style.display = "none";
-                dealerTalk.innerHTML = "";
-                determineWinner();
-            }, bubbleDelay + 1000);
-        }
+        }, 1000);
+    } else if (dealerScore >= 17 && dealerScore < 21) {
+        setTimeout(function() {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `I'm standing on ${dealerScore}`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            determineWinner();
+        }, bubbleDelay + 1000);
     } else if (dealerScore == 21) {
         setTimeout(function() {
             bubble.style.display = "flex";

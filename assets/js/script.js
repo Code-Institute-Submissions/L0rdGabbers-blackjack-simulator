@@ -195,56 +195,72 @@ function dealPlayer() {
 }
 
 function dealCpu2() {
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) { 
-        if (drawCardNumber == i) {
-            let img = document.createElement('img');
-            img.src = cardImgs[i].source;
-            img.setAttribute('class', "cpu-card");
-            img.setAttribute('alt', `${cardImgs[i].card}`);
-            document.getElementById('cpu2-hand').appendChild(img);
-            cpu2Hand.push(cardImgs[i]);
-            img.style.position = 'relative';
-            img.style.bottom = `${(7.8 * (cpu2Hand.length - 1))}rem`;
-            cardImgs.splice(i,1);
+    if (cardImgs.length == 0) {
+        shuffleCards();
+        dealCpu2();
+    } else {
+        let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+        for (let i = 0; i < cardImgs.length; i++) { 
+            if (drawCardNumber == i) {
+                let img = document.createElement('img');
+                img.src = cardImgs[i].source;
+                 img.setAttribute('class', "cpu-card");
+                img.setAttribute('alt', `${cardImgs[i].card}`);
+                document.getElementById('cpu2-hand').appendChild(img);
+                cpu2Hand.push(cardImgs[i]);
+                img.style.position = 'relative';
+                img.style.bottom = `${(7.8 * (cpu2Hand.length - 1))}rem`;
+                cardImgs.splice(i,1);
+            }
         }
     }
 }
 
 function dealDealerUp() {
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) { 
-        if (drawCardNumber == i) {
-            let img = document.createElement('img');
-            img.src = cardImgs[i].source;
-            img.setAttribute('class', "card");
-            img.setAttribute('alt', `${cardImgs[i].card}`);
-            img.setAttribute('data-type', `${cardImgs[i].points}` );
-            dealerDisplay.appendChild(img);
-            dealerHand.push(cardImgs[i]);
-            img.style.position = 'relative';
-            img.style.right = `${(7.8*(dealerHand.length - 1))}rem`
-            cardImgs.splice(i,1);
+    if (cardImgs.length == 0) {
+        shuffleCards();
+        dealDealerUp();
+    } else {
+        let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+        for (let i = 0; i < cardImgs.length; i++) { 
+            if (drawCardNumber == i) {
+                let img = document.createElement('img');
+                img.src = cardImgs[i].source;
+                img.setAttribute('class', "card");
+                img.setAttribute('alt', `${cardImgs[i].card}`);
+                img.setAttribute('data-type', `${cardImgs[i].points}` );
+                dealerDisplay.appendChild(img);
+                dealerHand.push(cardImgs[i]);
+                img.style.position = 'relative';
+                img.style.right = `${(7.8*(dealerHand.length - 1))}rem`
+                cardImgs.splice(i,1);
+            }
         }
     }
 }
 
 function dealDealerDown() {
-    let img = document.createElement('img');
-    img.src = "./assets/images/card-back.png"
-    img.setAttribute('class', 'card');
-    img.style.position = 'relative';
-    img.style.right = "7.8rem"
-    dealerDisplay.appendChild(img);
-    let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
-    for (let i = 0; i < cardImgs.length; i++) { 
-        if (drawCardNumber == i) {
-            dealerHand.push(cardImgs[i]);
-            cardImgs.splice(i,1);
-            cpu1Score = cpu1Hand[0].points + cpu1Hand[1].points;
-            playerScore = playerHand[0].points + playerHand[1].points;
-            cpu2Score = cpu2Hand[0].points + cpu2Hand[1].points;
-            dealerScore = dealerHand[0].points + dealerHand[1].points;
+    if (cardImgs.length == 0) {
+        shuffleCards();
+        dealDealerDown
+        ();
+    } else {
+        let img = document.createElement('img');
+        img.src = "./assets/images/card-back.png"
+        img.setAttribute('class', 'card');
+        img.style.position = 'relative';
+        img.style.right = "7.8rem"
+        dealerDisplay.appendChild(img);
+        let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
+        for (let i = 0; i < cardImgs.length; i++) { 
+            if (drawCardNumber == i) {
+                dealerHand.push(cardImgs[i]);
+                cardImgs.splice(i,1);
+                cpu1Score = cpu1Hand[0].points + cpu1Hand[1].points;
+                playerScore = playerHand[0].points + playerHand[1].points;
+                cpu2Score = cpu2Hand[0].points + cpu2Hand[1].points;
+                dealerScore = dealerHand[0].points + dealerHand[1].points;
+            }
         }
     }
 }
@@ -257,8 +273,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 3000));
-        bubbleDelay += 3500
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 2500
     }
     if (playerScore == 21) {
         setTimeout(function() {
@@ -267,8 +283,8 @@ function testForBlackjack() {
         }, bubbleDelay)
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 3000));
-        bubbleDelay += 3500
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 2500
     }
     if (cpu2Score == 21) {
         setTimeout(function() {
@@ -277,14 +293,14 @@ function testForBlackjack() {
         }, bubbleDelay);
         setTimeout(function() {
             bubble.style.display = "none";
-        }, (bubbleDelay + 3000));
-        bubbleDelay += 3500
+        }, (bubbleDelay + 2000));
+        bubbleDelay += 2500
     }
     insurancePhase();
 }
 
 function insurancePhase() {
-    if (dealerHand[0].points >= 10) { 
+    if (dealerHand[0].points >= 10 && playerScore != 21) { 
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "Would you like to buy insurance, play on, or surrender?";
@@ -303,6 +319,7 @@ function insurancePhase() {
 }
 
 function revealIfBlackjack() {
+    closeBubble.removeEventListener('click', revealIfBlackjack)
     if (dealerScore < 21) {
         bubble.style.display = "none";
         dealerTalk.innerHTML = "";
@@ -361,7 +378,7 @@ function cpu1Play() {
                 if (cpu1Score > 21) {
                     if (checkAces(cpu1Hand)) {
                         cpu1Score -= 10;
-                        cpu1Play();
+                        setTimeout(cpu1Play, bubbleDelay);
                     } else {
                         setTimeout(function() {
                             bubble.style.display = "flex";
@@ -450,7 +467,7 @@ function cpu2Play() {
                 if (cpu2Score > 21) {
                     if (checkAces(cpu2Hand)) {
                         cpu2Score -= 10;
-                        cpu2Play();
+                        setTimeout(cpu2Play, bubbleDelay);
                     } else {
                         setTimeout(function() {
                             bubble.style.display = "flex";
@@ -534,7 +551,7 @@ function dealerPlay() {
             if (dealerScore > 21) {
                 if (checkAces(dealerHand)) {
                     dealerScore -= 10;
-                    dealerPlay();
+                    setTimeout(dealerPlay, bubbleDelay);
                 } else {
                     setTimeout(function() {
                         bubble.style.display = "flex";
@@ -796,7 +813,8 @@ function endRound() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "You're all out of cash.";
             closeBubble.innerHTML = "Click here to buy in again.";
-            closeBubble.addEventListener('click', function() {
+            closeBubble.addEventListener('click', function buyIn() {
+                closeBubble.removeEventListener('click', buyIn)
                 playerWinnings = 100;
                 winnings.innerHTML = playerWinnings
                 dealerTalk.innerHTML = "Alright, to begin play, make another bet at the bottom of the table.";

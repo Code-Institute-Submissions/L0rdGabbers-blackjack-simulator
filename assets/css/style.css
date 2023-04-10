@@ -50,7 +50,7 @@ p {
 }
 
 span {
-    font-size: 2.2rem;
+    font-size: 2.5vw;
     color: #FFF;
     font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -59,7 +59,7 @@ span {
 
 /*Label for bet input*/
 label {
-    font-size: 2.2rem;
+    font-size: 2.5vw;
     color: #FFF;
     font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -70,7 +70,7 @@ label {
 /*Styles the player's bet input so that it is not too jarring*/
 input {
     color: #FFF;
-    font-size: 2.2rem;
+    font-size: 2.5vw;
     color: #FFF;
     font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -200,26 +200,28 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #bubble > img {
-    width: 40rem;
+    width: 35vw;
     transform: rotate(180deg);
     background: transparent;
 
 }
 
 #bubble-content {
-    z-index: 2;
+    z-index: 1;
     display: flex;
     flex-direction: column;
-    position: fixed;
+    position: absolute;
     align-items: center;
-    top: 39%;
-    width: 30%;
+    top: 35%;
+    width: 80%;
     text-align: center;
+    flex-wrap: wrap;
 }
+
 
 #dealer-talk {
     width: 75%;
-    margin-bottom: 0%;
+    margin: 0 0 0 0;
 }
 
 #bubble-content > p {

@@ -3,7 +3,6 @@ const betInput = document.getElementById('bet');
 const dealerTalk = document.getElementById('dealer-talk');
 const closeBubble = document.getElementById('close-bubble');
 const insure = document.getElementById('insure');
-const surrender = document.getElementById('surrender');
 const winnings = document.getElementById('score');
 const playerCommands = document.getElementById('player-commands').children;
 const dealerDisplay = document.getElementById('dealer-hand');
@@ -99,10 +98,9 @@ function betStage() {
                 bubble.style.display = "none";
                 let subtractBet = (this.valueAsNumber);
                 playerWinnings = playerWinnings - subtractBet;
-                winnings.innerHTML = playerWinnings;
+                winnings.innerHTML = playerWinnings.toFixed(2);
                 betInput.setAttribute("max", playerWinnings);
                 betInput.removeEventListener('keydown', collectBets);
-                betInput.setAttribute("value", 0);
                 playerBet = subtractBet;
                 bubble.style.display = "none";
                 closeBubble.innerHTML = "";
@@ -116,16 +114,15 @@ function shuffleCards() {
     setTimeout(function() {
         bubble.style.display = "flex";
         dealerTalk.innerHTML = "I've gotta shuffle the cards real quick";
+        for (let i = 0; i < discardPile.length; i++) {
+            cardImgs.push(discardPile[i]);
+            discardPile.splice(i,1);
+        }
     }, bubbleDelay)
     setTimeout(function() {
         bubble.style.display = "none";
-        dealerTalk.innerHTML = "";
-        cpu1Play(); 
+        dealerTalk.innerHTML = ""; 
     }, bubbleDelay + 2000)
-    for (let i = 0; i < discardPile.length; i++) {
-        cardImgs.push(discardPile[i]);
-        discardPile.splice(i,1);
-    }
 }
 
 function beginRound() {
@@ -302,19 +299,17 @@ function insurancePhase() {
     if (dealerHand[0].points >= 10 && playerScore != 21) { 
         setTimeout(function() {
             bubble.style.display = "flex";
-            dealerTalk.innerHTML = "Would you like to buy insurance, play on, or surrender?";
-            insure.innerHTML = "INSURE";
+            dealerTalk.innerHTML = "Would you like to buy insurance or play on";
             closeBubble.innerHTML = "PLAY";
-            surrender.innerHTML = "SURRENDER";
+            insure.innerHTML = "INSURE";
             closeBubble.addEventListener('click', revealIfBlackjack)
         }, bubbleDelay);
-    } else {
+    } else if (dealerHand[0].points < 10 || playerScore == 21) {
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
-        surrender.innerHTML = "";
         setTimeout(cpu1Play, 2000); 
     }
-    bubbleDelay = 2000;
+    bubbleDelay = 2500;
 }
 
 function revealIfBlackjack() {
@@ -324,7 +319,6 @@ function revealIfBlackjack() {
         dealerTalk.innerHTML = "";
         insure.innerHTML = "";
         closeBubble.innerHTML = "";
-        surrender.innerHTML = "";
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = "I ain't got Blackjack";
@@ -340,7 +334,6 @@ function revealIfBlackjack() {
             dealerTalk.innerHTML = "";
             insure.innerHTML = "";
             closeBubble.innerHTML = "";
-            surrender.innerHTML = "";
             revealDealerCard();
             setTimeout(function() {
                 bubble.style.display = "flex";
@@ -380,7 +373,7 @@ function cpu1Play() {
             setTimeout(function() {
                 bubble.style.display = "none";
                 dealerTalk.innerHTML = "";
-                dealPlayer();
+                playerPlay();
             }, bubbleDelay + 2000)
         }
     } else if (cpu1Score < 21) {
@@ -567,29 +560,27 @@ function revealDealerCard() {
 }
 
 function dealerPlay() {
-    if (dealerScore < 17) {
+    if (dealerScore > 21) {
+        if (checkAces(dealerHand)) {
+            dealerScore -= 10;
+            setTimeout(dealerPlay, bubbleDelay + 2000);
+        } else {
+            setTimeout(function() {
+                bubble.style.display = "flex";
+                dealerTalk.innerHTML = "I've gone bust.";
+            }, bubbleDelay);
+            setTimeout(function() {
+                bubble.style.display = "none";
+                dealerTalk.innerHTML = "";
+                determineWinner();
+            }, bubbleDelay + 2000)
+        }
+    } else if (dealerScore < 17) {
         setTimeout(function() {
             dealDealerUp();
             dealerScore = dealerScore + dealerHand[dealerHand.length -1].points;
-            if (dealerScore > 21) {
-                if (checkAces(dealerHand)) {
-                    dealerScore -= 10;
-                    setTimeout(dealerPlay, bubbleDelay);
-                } else {
-                    setTimeout(function() {
-                        bubble.style.display = "flex";
-                        dealerTalk.innerHTML = "I've gone bust.";
-                    }, bubbleDelay);
-                    setTimeout(function() {
-                        bubble.style.display = "none";
-                        dealerTalk.innerHTML = "";
-                        determineWinner();
-                    }, bubbleDelay + 2000)
-                }
-            } else if (dealerScore <= 21) {
-                dealerPlay();
-            }
-        }, 1000);
+            dealerPlay();
+        }, 2000);
     } else if (dealerScore >= 17 && dealerScore < 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
@@ -656,6 +647,7 @@ function hit() {
 function stand() {
     for (let i = 0; i < playerCommands.length; i++) {
         playerCommands[i].style.color  = "#a0a0a0";
+        playerCommands[i].style.cursor = "not-allowed";
     }
     playerCommands[0].removeEventListener('click', hit);
     playerCommands[1].removeEventListener('click', stand);
@@ -694,7 +686,7 @@ function determineWinner() {
             dealerTalk.innerHTML = "";
             winnings.innerHTML = playerWinnings;
             endRound();
-        }, bubbleDelay + 1000);
+        }, bubbleDelay + 2500);
     } else if (dealerScore == playerScore && dealerScore < 22) {
         setTimeout(function() {
             bubble.style.display = "flex";
@@ -706,7 +698,7 @@ function determineWinner() {
             playerWinnings = playerWinnings + playerBet;
             winnings.innerHTML = playerWinnings;
             endRound();
-        }, bubbleDelay + 1000);
+        }, bubbleDelay + 2500);
     } else if ((dealerScore > playerScore && dealerScore < 22) || (dealerScore < 22 && playerScore >= 22)) {
         setTimeout(function() {
             bubble.style.display = "flex";
@@ -716,7 +708,7 @@ function determineWinner() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             endRound();
-        }, bubbleDelay + 1000);
+        }, bubbleDelay + 2500);
     } else if ((playerScore > dealerScore && playerScore < 22) || (playerScore < 22 && dealerScore >= 22)) {
         setTimeout(function() {
             bubble.style.display = "flex";
@@ -728,7 +720,7 @@ function determineWinner() {
             playerWinnings = (playerWinnings + (2 * (playerBet)))
             winnings.innerHTML = playerWinnings
             endRound();
-        }, bubbleDelay + 1000);
+        }, bubbleDelay + 2500);
     } else if (playerScore > 21 && dealerScore > 21) {
         setTimeout(function() {
             bubble.style.display = "flex";
@@ -738,7 +730,7 @@ function determineWinner() {
             bubble.style.display = "none";
             dealerTalk.innerHTML = "";
             endRound();
-        }, bubbleDelay + 1000);
+        }, bubbleDelay + 2500);
     }
 }
 

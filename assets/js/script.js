@@ -1,5 +1,6 @@
 const bubble = document.getElementById('bubble');
 const betInput = document.getElementById('bet');
+const betButton = document.getElementById('submit-bet');
 const dealerTalk = document.getElementById('dealer-talk');
 const closeBubble = document.getElementById('close-bubble');
 const insure = document.getElementById('insure');
@@ -48,6 +49,7 @@ let playerBet = 0;
 let playerWinnings = 100;
 let playerInsurance = 0;
 let bubbleDelay = 2500;
+betButton.disabled = true;
 
 //Gets the bet's input element and adds an event listener to it
 //Checks to ensure player's bet is valid and if valid
@@ -58,52 +60,147 @@ setTimeout(function() {
 dealerTalk.innerHTML = "Howdy Pardner, siddown and place your bet at the bottom of the table!";
 betStage();
 
+function collect() {
+    let money = betInput.valueAsNumber;
+    console.log(money)
+    if (parseFloat(money) === 0) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (parseFloat(money) < 0) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "I ain't giving you money.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (parseFloat(money) > playerWinnings) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "You ain't got that kind of money.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (parseFloat(money) === NaN) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+        closeBubble.innerHTML = "OK";
+        console.log("Error 3")
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (parseFloat(money) > 0 && bet.valueAsNumber <= playerWinnings) {
+        bubble.style.display = "none";
+        let subtractBet = (this.valueAsNumber);
+        playerWinnings = playerWinnings - subtractBet;
+        winnings.innerHTML = playerWinnings.toFixed(2);
+        betInput.setAttribute("max", playerWinnings);
+        betInput.removeEventListener('keydown', collectBets);
+        playerBet = subtractBet;
+        bubble.style.display = "none";
+        closeBubble.innerHTML = "";
+        beginRound();
+    }
+}
+
 function betStage() {
-    betInput.addEventListener('keydown', function collectBets(event) {
-        if (event.key === "Enter") {
-            if (this.valueAsNumber === 0) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.valueAsNumber < 0) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "I ain't giving you money.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.valueAsNumber > playerWinnings) {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "You ain't got that kind of money.";
-                closeBubble.innerHTML = "OK";
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.value === "") {
-                bubble.style.display = "flex";
-                dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
-                closeBubble.innerHTML = "OK";
-                console.log("Error 3")
-                bubble.children[1].addEventListener('click', function() {
-                    bubble.style.display = "none";
-                })
-            } else if (this.value > 0 && this.value <= playerWinnings) {
+    betInput.addEventListener('keydown', collectBets);
+    betButton.disabled = false;
+}
+
+function collectBets(event) {
+    if (event.key === "Enter") {
+        if (this.valueAsNumber === 0) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
-                let subtractBet = (this.valueAsNumber);
-                playerWinnings = playerWinnings - subtractBet;
-                winnings.innerHTML = playerWinnings.toFixed(2);
-                betInput.setAttribute("max", playerWinnings);
-                betInput.removeEventListener('keydown', collectBets);
-                playerBet = subtractBet;
+            })
+        } else if (this.valueAsNumber < 0) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "I ain't giving you money.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
                 bubble.style.display = "none";
-                closeBubble.innerHTML = "";
-                beginRound();
-            }
+            })
+        } else if (this.valueAsNumber > playerWinnings) {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "You ain't got that kind of money.";
+            closeBubble.innerHTML = "OK";
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.value === "") {
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+            closeBubble.innerHTML = "OK";
+            console.log("Error 3")
+            bubble.children[1].addEventListener('click', function() {
+                bubble.style.display = "none";
+            })
+        } else if (this.value > 0 && this.value <= playerWinnings) {
+            bubble.style.display = "none";
+            let subtractBet = (this.valueAsNumber);
+            playerWinnings = playerWinnings - subtractBet;
+            winnings.innerHTML = playerWinnings.toFixed(2);
+            betInput.setAttribute("max", playerWinnings);
+            betInput.removeEventListener('keydown', collectBets);
+            playerBet = subtractBet;
+            bubble.style.display = "none";
+            closeBubble.innerHTML = "";
+            beginRound();
         }
-    })
+    }
+}
+
+function collect() {
+    let money = betInput.valueAsNumber;
+    console.log(money)
+    if (money === 0) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "You gotta pay to play round 'ere.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (money < 0) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "I ain't giving you money.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (money > playerWinnings) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "You ain't got that kind of money.";
+        closeBubble.innerHTML = "OK";
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (money === NaN) {
+        bubble.style.display = "flex";
+        dealerTalk.innerHTML = "I'm sorry kiddo, we don't accept pretend money here.";
+        closeBubble.innerHTML = "OK";
+        console.log("Error 3")
+        bubble.children[1].addEventListener('click', function() {
+            bubble.style.display = "none";
+        })
+    } else if (money > 0 && money <= playerWinnings) {
+        bubble.style.display = "none";
+        let subtractBet = money;
+        playerWinnings = playerWinnings - subtractBet;
+        winnings.innerHTML = playerWinnings.toFixed(2);
+        betInput.setAttribute("max", playerWinnings);
+        betInput.removeEventListener('keydown', collectBets);
+        playerBet = subtractBet;
+        bubble.style.display = "none";
+        closeBubble.innerHTML = "";
+        beginRound();
+    }
 }
 
 function shuffleCards() {

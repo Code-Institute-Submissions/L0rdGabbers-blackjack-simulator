@@ -36,12 +36,12 @@ div {
 h1 {
     font-family: 'Rye', cursive;
     letter-spacing: 0.1em;
-    font-size: 6rem;
+    font-size: 6vw;
     color: rgba(255,255,255,.8);
 }
 
 p {
-    font-size: 2.5vw;
+    font-size: 2.4vw;
     color: #FFF;
     font-family: "Smokum", Helvetica, Arial, sans-serif;
     font-weight: 400;
@@ -88,6 +88,10 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0; 
 }
 
+#submit-bet {
+    width: fit-content;
+}
+
 /*Turns font player controls grey, when they cannot be interacted with*/
 .static {
     color: #A0A0A0
@@ -96,19 +100,19 @@ input[type=number]::-webkit-outer-spin-button {
 /*Assigns space for player's score*/
 .bottom-left {
     position: fixed;
-    left: 3rem; bottom: 2rem;
-    width: 16rem;
-    height: 10rem;
+    left: 2rem;
+    bottom: 1.1vh;
+    width: fit-content;
+    height: fit-content;
     padding: 5px;
 }
 
 /*Assigns space for player's controls*/
 .bottom-right {
     position: fixed;
-    right: 3rem; bottom: 2rem;
-    width: 16rem;
-    height: 13rem;
-    padding: 5px;
+    right: 2rem; bottom: 1.5vh;
+    width: fit-content;
+    height: fit-content;
     text-align: right;
 }
 

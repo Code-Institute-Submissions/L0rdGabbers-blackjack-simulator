@@ -612,7 +612,19 @@ function checkAces(checkHand) {
 }
 
 function determineWinner() {
-    if (dealerScore == playerScore && dealerScore < 22) {
+    if (playerScore === 21 && playerHand.length === 2 && dealerScore != playerScore) {
+        setTimeout(function() {
+            playerWinnings = (playerWinnings + (1.5 * (playerBet)))
+            bubble.style.display = "flex";
+            dealerTalk.innerHTML = `You won $${(1.5 * (playerBet)).toFixed(2)}, thanks to yer Blackjack`;
+        }, bubbleDelay);
+        setTimeout(function() {
+            bubble.style.display = "none";
+            dealerTalk.innerHTML = "";
+            winnings.innerHTML = playerWinnings;
+            endRound();
+        }, bubbleDelay + 1000);
+    } else if (dealerScore == playerScore && dealerScore < 22) {
         setTimeout(function() {
             bubble.style.display = "flex";
             dealerTalk.innerHTML = `Well, looks like your bets been pushed.`;
@@ -656,18 +668,7 @@ function determineWinner() {
             dealerTalk.innerHTML = "";
             endRound();
         }, bubbleDelay + 1000);
-    } else if (playerScore === 21 && playerHand.length === 2 && dealerScore != playerScore) {
-        setTimeout(function() {
-            playerWinnings = (playerWinnings + (1.5 * (playerBet)))
-            bubble.style.display = "flex";
-            dealerTalk.innerHTML = `You won $${(1.5 * (playerBet)).toFixed(2)}, thanks to yer Blackjack`;
-        }, bubbleDelay);
-        setTimeout(function() {
-            bubble.style.display = "none";
-            dealerTalk.innerHTML = "";
-            winnings.innerHTML = playerWinnings;
-            endRound();
-    }, bubbleDelay + 1000);
+    }
 }
 
 function endRound() {
@@ -790,4 +791,4 @@ function resetAces(checkHand) {
             evalHand[i].check = 0;
         }
     } 
-}}
+}

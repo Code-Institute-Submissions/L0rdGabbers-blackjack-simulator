@@ -27,15 +27,13 @@ Blackjack, which is formerly known as Vingt-Un, French for 21, is traditional ca
     * [***Functionality***](#functionality)
     * [***Verification***](#verification)
 1. [**Bugs**](#bugs)
-    * [***iPhone***](#iphone)
-    * [***List Spacing***](#list-spacing)
-    * [***Button Alignment***](#button-alignment)
+    * [***Straights in a straight line***](#straights-in-a-straight-line)
+    * [***Repeated Functions***](#repeated-functions)
 1. [**Deployment**](#deployment)
 1. [**Tech**](#tech)
 1. [**Credits**](#credits)
     * [**Honorable mentions**](#honorable-mentions)
     * [**Content**](#content)
-    * [**Media**](#media)
 ​
 ## **Planning stage**
 ### **Target Audiences:**

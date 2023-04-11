@@ -1,108 +1,208 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# **Wild West Blackjack Simulator**
+## **Site Overview**
+Blackjack, which is formerly known as Vingt-Un, French for 21, is traditional casino game. The aim of the game is to draw cards to earn a score as close to 21 without going higher than 21. All players are against the dealer, who simultaneously plays against all other players with their single hand. Whilst I have never played an actual game of Blackjack to win money, I have always playing the game at University with my friends. Wanting to challenge myself, I decided that I would not only make a win/lose game, but one that also had a witty dealer in a Western setting. This simulator is not intended to encourage, fuel or give way to gambling, but rather to let people enjoy a classic game that gives off the Wild West vibe  
 
-Welcome L0rdGabbers,
+<img src="docs/readme_images/responsive_blackjack.png">
+​
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Table of contents:
+1. [**Site Overview**](#site-overview)
+1. [**Planning stage**](#planning-stage)
+    * [***Target Audiences***](#target-audiences)
+    * [***User Stories***](#user-stories)
+    * [***Site Aims***](#site-aims)
+    * [***Color Scheme***](#color-scheme)
+    * [***Typography***](#typography)
+1. [**Features**](#features)
+    * [***Bets and Inputs***](#bets-and-inputs)
+    * [***Player Commands***](#player-commands)
+    * [***Insurance Phase***](#insurance-phase)
+    * [***Main game***](#main-game)
+    * [***Buying Back In***](#buying-back-in)
+1. [**Future-Enhancements**](#future-enhancements)
+    * [***Surrendering***](#surrendering)
+    * [***The Shuffle Function***](#the-shuffle-function)
+1. [**Testing Phase**](#testing-phase)
+    * [***Responsiveness***](#responsiveness)
+    * [***Functionality***](#functionality)
+    * [***Verification***](#verification)
+1. [**Bugs**](#bugs)
+    * [***iPhone***](#iphone)
+    * [***List Spacing***](#list-spacing)
+    * [***Button Alignment***](#button-alignment)
+1. [**Deployment**](#deployment)
+1. [**Tech**](#tech)
+1. [**Credits**](#credits)
+    * [**Honorable mentions**](#honorable-mentions)
+    * [**Content**](#content)
+    * [**Media**](#media)
+​
+## **Planning stage**
+### **Target Audiences:**
+* Fans of Blackjack
+* Wild West enthusiasts
+​
+### **User Stories:**
+* As a user, I want to practice against a machine before I play the game in real life.
+* As a user, I want to be able to play my favourite game whenever I want.
+* As a user, I want to learn how to play Blackjack.
+​
+### **Site Aims:**
+* To provide all users with a fun game.
+* To provide users with an expereience that is reminiscent of the Wild West.
+​
+### **Color Scheme:**
+* For my main colour, I chose a dark green, #006400, since it gives off the vibe of an actual Poker table, and in order for it to stand out on a green field, I made the dealer's speech bubbles #fbc304. Whilst adobe colour suggested complementary colors such as purple, #4A0563, or dark red, #631305, I felt these colours were too rich and luxurious, so I decided on a lighter gold colour. 
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+<img src="docs/readme_images/green_background.png">
 
-## Gitpod Reminders
+<img src="docs/readme_images/complementary_colours.png">
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+<img src="docs/readme_images/speech_bubble.png">
 
-`python3 -m http.server`
+​
+### **Typography**
+* Of the fonts that were available to me, I decided that Rye, and Smokum were the most asthetically fitting fonts as they both has connections a Wild West setting.
+* All fonts were sourced from Google fonts, as stated in the credits.
 
-A blue button should appear to click: _Make Public_,
+<img src="docs/readme_images/dealer_talking.png">
 
-Another blue button should appear to click: _Open Browser_.
+​
+## **Features**
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+### *Bets and Inputs*
+* The input field accepts numbers only, and can be submitted either by pressing the submit button, or by pressing the enter key by making use of an event horizon.
+* The bets, input field and button are all responsive.
 
-A blue button should appear to click: _Make Public_,
+<img src="docs/readme_images/bets_inputs.png">
 
-Another blue button should appear to click: _Open Browser_.
+​
+### *Player Commands*
+* At the bottom right of the screen, when it is the player's turn, they will be able to Hit, Stand or Double Down.
+* Hitting will execute a function tht draws a card from the deck and into the dealer's hand.
+* Standing will end the player's turn and pass on to the next CPU player.
+* Doubling Down will double the player's bet and let them draw only one more card, before freezing the Player Commands section.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+<img src="docs/readme_images/player_commands.png">
 
-To log into the Heroku toolbelt CLI:
+* When it is the player's turn, the buttons will turn white, and the 'not allowed' cursor will be replaced with a regular cursor.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+### *Insurance Phase*
+* If the dealer's faceup card is a ten or higher, the player user will be offered a choice on whether to buy insurance or not.
 
-------
+<img src="docs/readme_images/insurance.png">
 
-## Release History
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+### *Main Game*
+* Each round involves a betting, playing and victory stage.
+* Whilst the victory of the additional CPUs on the side of the screen mean nothing to the player, whether the dealer's cards are higher or lower than the player's will determine if they win that particular round, before continuing on.
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+<img src="docs/readme_images/game.png">
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+* If a player or CPU goes bust or stands, the dealer will anounce that before moving on to the next player.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+<img src="docs/readme_images/clint_stands.png">
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+### *Buying Back In*
+* Should the player lose all of their fictional money in this game, the dealer will offer them a chance to buy back in.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+<img src="docs/readme_images/all_out.png">
+​
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+## **Future-Enhancements**
+​
+### *Surrendering*
+* In addition to buying insurance, the player is sometime given the choice to take half their bet back and surrender if they believe that they will lose.
+* This option could be added during the insurance phase by giving the player a third option, following PLAY and INSURE.
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+### *The Shuffle function*
+* Traditionally, in Blackjack, the cards are not reshuffled back into the draw pile until the draw pile is empty. This is not the case in my simulator however, as I could not figure out how to create a function that could check the number of cards in the draw pile before deciding that more cards are necessary to draw another card or play another round.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+## **Testing Phase**
+​
+### *Responsiveness*
+* I used my ASUS TUF DASH F15 to write and test this simulator during and used Chrome Dev Tools to test for initial responsiveness. 
+* Initially, the cards were not able to be moved without altering the position in relation to each other, but by using media queries, I was able to assign some fixed values to the img elements which fixed this issue.
+* After the intial testing was complete, I used my iPhone 8+ to test whether this application could be run on mobile devices, both in landscape and in portrait view.
+* I succesfully tested my website on Google, Safari, Firefox, and Microsoft Edge. Whilst the arrow keys on the number input field appear on the Firefox browser, there is no other change to the website in any other way.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+### *Functionality* 
+* I tested each function by making sure console.logs were successfully feeding back to me.
+* I ran through 5 the round loops for several hours ironing out any mistakes or errors.
+* I added a submit button upon realising that touch screen users would have no way of submitting their bets and ultimately starting the game. I added a new function, as well as some HTML and CSS code to make up for this design flaw.
+* I checked with pen and paper to ensure that every single win/loss possibility was accounted for and waited for those conditions to be met so I could ensure no rare condition would occur.
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+### *Verification*
+* I tested the HTML code on the w3c validator, and ironed out all the issues that were reported back.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+<img src="docs/readme_images/html_blackjack.png">
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+* The w3c validator reported no issues with my CSS code.
 
-------
+<img src="docs/readme_images/css_blackjack.png">
 
-## FAQ about the uptime script
+* I tested my site on the Google dev tools "lighthouse" function.
 
-**Why have you added this script?**
+<img src="docs/readme_images/lighthouse_scores.png">​
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+* And finally, I ironed out all flagged errors in my JS code using JSHint.
 
-**How will this affect me?**
+<img src="docs/readme_images/js.blackjack.png">
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+* The function collect which the JSHint claims isn't being called is being called via a clickme attribute on the submit button element.
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+## **Bugs**
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+### Straights in a straight line 
+* When I ran the beginRound function for the first time, there were two bugs to do with how the cards were being pushed.
 
-**So….?**
+<img src="docs/readme_images/problem1.png">
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+* The first problem was that the cards were being randomly selected, but the following cards would always be the next one in the array. This was because the array where the card images were collected from were all ordered.
 
-**Can I opt out?**
+<img src="docs/readme_images/card_imgs.png">
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+* Fixing this problem was relatively easy, all that had to be done was for a random number to be selected every time the function was called rather that when the DOM loaded up.
+* As for fixing the issue with the cards being ordered in a straight line, this issue was fixed by declaring four separate "deal" functions which would send each player's cards to their correct hands.
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+<img src="docs/readme_images/dealing_functions.png">
 
-**Anything more?**
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+### Repeated functions
+* Halfway through development, the CPU1 player would often be dealt more than one card at a time, which would then cause a chain reaction and cause all other players to draw more cards than they required, making it very unlikely for any player to beat the dealer.
 
----
+<img src="docs/readme_images/overload.png">
 
-Happy coding!
+* It took me several days and with some help, but I had figured out that the insurancePhase function had been called an additional time in the JS code, meaning that two rounds would be executed simultaneously and would often merge together.
+* As soon as this single of code had been removed, the code started to flow normally again. 
+
+## **Deployment**
+* I deployed the page on GitHub pages via the following procedure: -
+​
+1. From the project's [repository](https://github.com/L0rdGabbers/blackjack-simulator), go to the **Settings** tab.
+2. From the left-hand menu, select the **Pages** tab.
+3. Under the **Source** section, select the **Main** branch from the drop-down menu and click **Save**.
+4. A message will be displayed to indicate a successful deployment to GitHub pages and provide the live link.
+
+* You can find the live site via the following URL - [live webpage](https://l0rdgabbers.github.io/blackjack-simulator/)
+
+​
+## **Tech**
+* The coding languages used to create this site were HTML, CSS, and JS
+​
+​
+## **Credits**
+
+### **Honorable mentions**
+* Thank you to Richard Wells, for making me feel really proud of my first ever implementation of JavaScript, and for helping me find that single darn line of code mentioned earlier.
+* Thank you to my family, for putting up with me sitting in another room for hours on end during the easter holidays whilst I wrote this readme.file.
+* Thank you to Ziwei Zhou for checking up on me in the middle of the night to see if I was ok.
+* Thank you to Red Dead Redemption II for teaching me the rules of Blackjack.
+​
+### **Content:**
+* The code used to set the points value of the Aces after a player had gone bust was of the courtesy of Richard Wells, although I may have tweeked it a little.
+* Rye and Smokum font was provided sourced from google fonts: https://fonts.google.com
+* The card images were sourced from http://www.freestockphotos.biz/photos.php?c=all&o=popular&s=0&lic=all&a=all&set=oca-dLlj2sa

@@ -146,13 +146,13 @@ input[type=number]::-webkit-outer-spin-button {
 
 .hand {
     display: flex;
-    width: min-content;
-    justify-content: space-between;
+    width: 33rem;
+    justify-content: flex-start;
 }
 
 .cpu-hand {
     display: flex;
-    height: max-content;
+    height: 11rem;
     flex-direction: column;
     align-items: center;
 }
@@ -173,7 +173,7 @@ input[type=number]::-webkit-outer-spin-button {
 #player-hand {
     position: fixed;
     left: 42%;
-    bottom: 10%;
+    bottom: 30%;
 }
 
 #player-commands p:hover {
@@ -204,7 +204,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #bubble > img {
-    width: 35vw;
+    width: 30vw;
     transform: rotate(180deg);
     background: transparent;
 
@@ -305,4 +305,69 @@ input[type=number]::-webkit-outer-spin-button {
 @keyframes v-disappear {
     from {height: 14rem; width: 10.25rem;}
     to {height: 14rem; width: 0rem;}
+}
+
+@media screen and (max-width: 950px) {
+    #draw {
+        display: none;
+    }
+
+    .card {
+        max-height: 10rem;
+    }
+
+    .cpu-card {
+        max-height: 10rem;
+    }
+
+    #player-hand {
+        bottom: 40%;
+        left: 1%;
+    }
+
+    #cpu1-hand {
+        top: 20%;
+        right: 2%;
+
+    }
+
+    #cpu2-hand {
+        top: 20%;
+        left: 2%;
+    }
+
+    #dealer-hand {
+        top: -7%;
+        left: 10%;
+    }
+
+    #bubble img {
+        width: 19rem
+    }
+
+    #bubble p {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-height: 800px) {
+    #draw {
+        display: none;
+    }
+
+    #cpu1-hand {
+        top: 20%;
+    }
+
+    #cpu2-hand {
+        top: 20%;
+    }
+
+    #dealer-hand {
+        left: 30%;
+    }
+
+    #player-hand {
+        left: 30%;
+    }
 }

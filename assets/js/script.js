@@ -258,8 +258,9 @@ function dealCpu1() {
                 img.setAttribute('alt', `${cardImgs[i].card}`);
                 document.getElementById('cpu1-hand').appendChild(img);
                 cpu1Hand.push(cardImgs[i]);
-                img.style.position = 'relative';
-                img.style.bottom = `${(7.8 * (cpu1Hand.length - 1))}rem`;
+                img.style.position = 'absolute';
+                img.style.top = `${(25 * (cpu1Hand.length - 1))}%`;
+                img.style.zIndex = `${-(cpu1Hand.length - 1)}`
                 cardImgs.splice(i,1);
             }
         }
@@ -280,8 +281,9 @@ function dealPlayer() {
                 img.setAttribute('alt', `${cardImgs[i].card}`)
                 document.getElementById('player-hand').appendChild(img);
                 playerHand.push(cardImgs[i]);
-                img.style.position = 'relative';
-                img.style.right = `${(7.8*(playerHand.length - 1))}rem`
+                img.style.position = 'absolute';
+                img.style.left = `${(10*(playerHand.length - 1))}%`
+                img.style.zIndex = `${(playerHand.length - 1)}`
                 cardImgs.splice(i,1);
             }
         }
@@ -302,8 +304,8 @@ function dealCpu2() {
                 img.setAttribute('alt', `${cardImgs[i].card}`);
                 document.getElementById('cpu2-hand').appendChild(img);
                 cpu2Hand.push(cardImgs[i]);
-                img.style.position = 'relative';
-                img.style.bottom = `${(7.8 * (cpu2Hand.length - 1))}rem`;
+                img.style.position = 'absolute';
+                img.style.top = `${(25 * (cpu2Hand.length - 1))}%`;
                 cardImgs.splice(i,1);
             }
         }
@@ -325,8 +327,9 @@ function dealDealerUp() {
                 img.setAttribute('data-type', `${cardImgs[i].points}` );
                 dealerDisplay.appendChild(img);
                 dealerHand.push(cardImgs[i]);
-                img.style.position = 'relative';
-                img.style.right = `${(7.8*(dealerHand.length - 1))}rem`
+                img.style.position = 'absolute';
+                img.style.left = `${(10 * (dealerHand.length - 1))}%`
+                img.style.zIndex = `${-(dealerHand.length - 1)}`
                 cardImgs.splice(i,1);
             }
         }
@@ -341,8 +344,9 @@ function dealDealerDown() {
         let img = document.createElement('img');
         img.src = "./assets/images/card-back.png"
         img.setAttribute('class', 'card');
-        img.style.position = 'relative';
-        img.style.right = "7.8rem"
+        img.style.position = 'absolute';
+        img.style.left = "10%"
+        img.style.zIndex = -1
         dealerDisplay.appendChild(img);
         let drawCardNumber = Math.floor(Math.random() * (cardImgs.length));
         for (let i = 0; i < cardImgs.length; i++) { 
@@ -687,8 +691,9 @@ function revealDealerCard() {
     img.setAttribute('class', "card");
     img.setAttribute('alt', `${dealerHand[1].card}`);
     img.setAttribute('data-type', `${dealerHand[1].points}` );
-    img.style.position = 'relative';
-    img.style.right = "7.8rem";
+    img.style.position = 'absolute';
+    img.style.left = "10%";
+    img.style.zIndex = `${-(dealerHand.length - 1)}`
     dealerDisplay.appendChild(img);
     setTimeout(dealerPlay, bubbleDelay)
 }

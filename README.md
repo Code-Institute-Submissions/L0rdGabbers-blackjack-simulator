@@ -202,5 +202,6 @@ Blackjack, which is formerly known as Vingt-Un, French for 21, is traditional ca
 ​
 ### **Content:**
 * The code used to set the points value of the Aces after a player had gone bust was of the courtesy of Richard Wells, although I may have tweeked it a little.
+* The code used to determine whether a CPU should hit or not was of the courtesy of Richard Wells. 
 * Rye and Smokum font was provided sourced from google fonts: https://fonts.google.com
 * The card images were sourced from http://www.freestockphotos.biz/photos.php?c=all&o=popular&s=0&lic=all&a=all&set=oca-dLlj2sa

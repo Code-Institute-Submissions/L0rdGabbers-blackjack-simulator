@@ -630,6 +630,9 @@ function cpu2Play() {
 
 //This function will dictate whether a CPU player
 //should hit or stand, partially based randomly, partially logically
+
+//This function is courtesy of Richard Wells who helped me with 
+//programming the CPUs
 function shouldHit(handTotal) {
     const safeTotal = 12;
     const randChance = (Math.random() * 1).toFixed(2);
@@ -773,6 +776,8 @@ function stand() {
 //they had any aces will be executed
 //if they did, and it has not been checked already,
 //that player's score is decreased by 10
+
+//This code is largely based on my tutor Richard Well's approach to solving the Ace probelm
 function checkAces(checkHand) {
     let evalHand = checkHand.filter((hand) => {
         return hand.check == 0;

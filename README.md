@@ -70,6 +70,7 @@ Blackjack, which is formerly known as Vingt-Un, French for 21, is traditional ca
 
 ### *Bets and Inputs*
 * The input field accepts numbers only, and can be submitted either by pressing the submit button, or by pressing the enter key by making use of an event horizon.
+* The bet keeps track of how many "dollars" the player has and this dictates how much they can bet and how much they will earn when they win.
 * The bets, input field and button are all responsive.
 
 <img src="docs/readme_images/bets_inputs.png">

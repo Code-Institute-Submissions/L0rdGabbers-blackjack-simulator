@@ -5,7 +5,7 @@
 
 html, body {margin: 0; height: 100%; overflow: hidden}
 
-
+/*Used as a fictional table to organise the cards*/
 #table {
     height: 100vh;
     width: 100vw;
@@ -14,16 +14,19 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     align-items: center;
 }
 
+/*Prevents div's from cutting out any overlapping elements*/
 div {
     background: none;
 }
 
+/*To be used whenever items are needed in rows*/
 .row {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
+/*Specifically for the insurance options in the speech bubble to organise them*/
 .bubble-row {
     display: flex;
     flex-direction: row;
@@ -40,6 +43,7 @@ h1 {
     color: rgba(255,255,255,.8);
 }
 
+/*Basic stylings for p elements inside speech bubble*/
 p {
     font-size: 2.4vw;
     color: #FFF;
@@ -49,6 +53,7 @@ p {
     margin: .75rem 0 .75rem 0;
 }
 
+/*The following elements are used to style the bets-scores div*/
 #bets-scores p {
     font-size: 2.5rem;
 }
@@ -130,6 +135,7 @@ input[type=number]::-webkit-outer-spin-button {
     text-align: right;
 }
 
+/*Assigns stylings to all card elements displayed vertically*/
 .card {
     max-height: 14rem;
     animation-name: verticaldeal;
@@ -138,6 +144,7 @@ input[type=number]::-webkit-outer-spin-button {
     position: fixed;
 }
 
+/*Assigns stylings to all card elements displayed horizontally*/
 .cpu-card {
     transform: rotate(-90deg);
     margin: -1.8rem;
@@ -148,12 +155,14 @@ input[type=number]::-webkit-outer-spin-button {
     position: fixed;
 }
 
+/*The default div which stacks cards horizontally*/
 .hand {
     display: flex;
     width: 33rem;
     justify-content: flex-start;
 }
 
+/*The alternate div which stacks cards vertically for CPU players*/
 .cpu-hand {
     display: flex;
     height: 11rem;
@@ -161,7 +170,7 @@ input[type=number]::-webkit-outer-spin-button {
     align-items: center;
 }
 
-
+/*Allocates the position on the screen for the hands of cards*/
 #cpu1-hand {
     position: fixed;
     top: 40%;
@@ -180,32 +189,31 @@ input[type=number]::-webkit-outer-spin-button {
     bottom: 30%;
 }
 
-#player-commands p:hover {
-    cursor:not-allowed;
-}
-
 #dealer-hand {
     position: fixed;
     left: 42%;
     top: 10%;
 }
 
+/*Informs the player that the player commands are not active*/
+#player-commands p:hover {
+    cursor:not-allowed;
+}
+
+
 /*Rotates draw and discard piles so as to look less robotic*/
 #draw {
     transform: rotate(40deg);
 }
 
-#discard {
-    transform: rotate(-40deg);
-    left: 15%;
-}
-
+/*Allocates the stylings for the speech bubble and all of its contents*/
 #bubble {
     position: absolute;
     display: none;
     justify-content: center;
     align-self: center;
 }
+
 
 #bubble > img {
     width: 30vw;
@@ -226,16 +234,17 @@ input[type=number]::-webkit-outer-spin-button {
     flex-wrap: wrap;
 }
 
+#bubble-content > p {
+    color: #000;
+    word-wrap: break-word;
+}
 
 #dealer-talk {
     width: 75%;
     margin: 0 0 0 0;
 }
 
-#bubble-content > p {
-    color: #000;
-    word-wrap: break-word;
-}
+
 
 .bubble-interact {
     text-decoration: underline;
@@ -247,6 +256,8 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
+/*The disappear classes are assigned to the cards in order
+to animate their disappearance and is assigned by JS*/
 .cpu1-disappear {
     transform: rotate(-90deg);
     margin: -1.8rem;
@@ -291,6 +302,7 @@ input[type=number]::-webkit-outer-spin-button {
     top: 10%;
 }
 
+/*These animations control how the cards are dealt or disappear*/
 @keyframes verticaldeal {
     from {height: 14rem; width: 0rem;}
     to {height: 14rem; width: 10.25rem;}
@@ -311,6 +323,7 @@ input[type=number]::-webkit-outer-spin-button {
     to {height: 14rem; width: 0rem;}
 }
 
+/*Media queries for screens with a width less than 950px*/
 @media screen and (max-width: 950px) {
     #draw {
         display: none;
@@ -382,6 +395,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+/*Media queries for screens with a height less than 800px*/
 @media screen and (max-height: 800px) {
     #draw {
         display: none;
@@ -429,6 +443,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 }
 
+/*Media queries for screens with less than 950px width and 800px height*/
 @media screen and (max-width: 950px) and (max-height: 800px) {
         #dealer-hand {
             left: 30%;
